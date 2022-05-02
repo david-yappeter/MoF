@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:mof/theme/colors.dart';
 
 ThemeData customTheme = ThemeData(
+  appBarTheme: const AppBarTheme(
+      color: CustomColor.white,
+      elevation: 0,
+      titleTextStyle: TextStyle(
+        color: Colors.black,
+      ),
+      toolbarTextStyle: TextStyle(
+        color: CustomColor.primary,
+      )),
   primarySwatch: const MaterialColor(0xFF6A39FF, {
     50: Color(0xFFE8E8E8),
     100: Color(0xFFBDBDBD),

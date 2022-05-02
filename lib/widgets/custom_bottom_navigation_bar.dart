@@ -1,0 +1,48 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mof/router/custom_bottom_navigation.dart';
+
+class CustomBottomNavigationBar extends GetView<BottomNavigationRouter> {
+  const CustomBottomNavigationBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => BottomAppBar(
+        elevation: 0,
+        shape: const CircularNotchedRectangle(),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.account_balance,
+              ),
+              label: 'Transaction',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.pie_chart,
+              ),
+              label: 'Report',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.timelapse,
+              ),
+              label: 'Planning',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.settings,
+              ),
+              label: 'Settings',
+            ),
+          ],
+          currentIndex: controller.currentIdx.value,
+          onTap: controller.changePage,
+        ),
+      ),
+    );
+  }
+}

@@ -4,9 +4,37 @@ import 'package:mof/controllers/pin_controller.dart';
 import 'package:mof/theme/colors.dart';
 
 class PinScreen extends StatelessWidget {
+  static const routeName = '/pin';
   final String pin;
   final keyCount = 6;
   const PinScreen({Key? key, required this.pin}) : super(key: key);
+
+  Widget buildTapButton({Function()? onTap, IconData? icon, String? text}) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(2),
+        color: Colors.transparent,
+      ),
+      height: 50,
+      width: double.infinity,
+      child: InkWell(
+        overlayColor: MaterialStateProperty.all<Color>(CustomColor.whiteLight),
+        onTap: onTap,
+        child: Center(
+          child: (icon == null)
+              ? Text(
+                  text as String,
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    color: (text).isNum ? Colors.black : CustomColor.primary,
+                  ),
+                )
+              : Icon(icon, color: CustomColor.primary),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,39 +53,119 @@ class PinScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline1,
                 textAlign: TextAlign.center,
               ),
-              Text(
-                'Minister of Finance',
-                style: Theme.of(context).textTheme.headline2,
+              Obx(
+                () => Text(
+                  'Minister of Finance ${pin.pin}',
+                  style: Theme.of(context).textTheme.headline2,
+                ),
               ),
               const SizedBox(height: 20),
-              SizedBox(
-                width: keyCount * 30,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: List<int>.filled(keyCount, 0)
-                      .map(
-                        (e) => const CircleAvatar(
-                          backgroundColor: CustomColor.whiteLight,
-                          radius: 8.0,
-                        ),
-                      )
-                      .toList(),
+              Obx(
+                () => SizedBox(
+                  width: keyCount * 30,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: List<Widget>.generate(
+                      keyCount,
+                      (int index) => CircleAvatar(
+                        backgroundColor: pin.pin.value.length > index
+                            ? CustomColor.primary
+                            : CustomColor.whiteLight,
+                        radius: 8.0,
+                      ),
+                    ),
+                    // .map(
+                    //   (e) => const CircleAvatar(
+                    //     backgroundColor: pin.pin.value.length >  CustomColor.whiteLight,
+                    //     radius: 8.0,
+                    //   ),
+                    // )
+                    // .toList(),
+                  ),
                 ),
               ),
               const SizedBox(height: 50),
               Expanded(
-                child: GridView.builder(
+                child: GridView(
+                  physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
+                    childAspectRatio: 3 / 2,
                   ),
-                  itemCount: 9,
-                  itemBuilder: (BuildContext ctx, int index) {
-                    return Container(
-                      child: Center(child: Text((index + 1).toString())),
-                    );
-                  },
+                  // itemCount: 9,
+                  // itemBuilder: (BuildContext ctx, int index) {
+                  //   return buildTapButton(
+                  //     onTap: () {},
+                  //     text: (index + 1).toString(),
+                  //   );
+                  // },
+                  children: [
+                    buildTapButton(
+                      onTap: () => pin.append(1),
+                      text: '1',
+                    ),
+                    buildTapButton(
+                      onTap: () => pin.append(2),
+                      text: '2',
+                    ),
+                    buildTapButton(
+                      onTap: () => pin.append(3),
+                      text: '3',
+                    ),
+                    buildTapButton(
+                      onTap: () => pin.append(4),
+                      text: '4',
+                    ),
+                    buildTapButton(
+                      onTap: () => pin.append(5),
+                      text: '5',
+                    ),
+                    buildTapButton(
+                      onTap: () => pin.append(6),
+                      text: '6',
+                    ),
+                    buildTapButton(
+                      onTap: () => pin.append(7),
+                      text: '7',
+                    ),
+                    buildTapButton(
+                      onTap: () => pin.append(8),
+                      text: '8',
+                    ),
+                    buildTapButton(
+                      onTap: () => pin.append(9),
+                      text: '9',
+                    ),
+                    buildTapButton(
+                      onTap: () => pin.clear(),
+                      text: 'Clear',
+                    ),
+                    buildTapButton(
+                      onTap: () => pin.append(0),
+                      text: '0',
+                    ),
+                    buildTapButton(
+                      onTap: () => pin.delete(),
+                      // text: 'Delete',
+                      icon: Icons.backspace,
+                    ),
+                  ],
                 ),
               ),
+              // Expanded(
+              //   child: GridView(
+              //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              //       crossAxisCount: 3,
+              //       childAspectRatio: 3 / 2,
+              //     ),
+              //     children: [
+              //       buildTapButton(
+              //         onTap: () {},
+              //         text: 'Cancel',
+              //       ),
+              //     ],
+              //   ),
+              // ),
               // SliverGrid(
               //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               //       crossAxisCount: 3),
