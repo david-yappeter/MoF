@@ -11,36 +11,50 @@ class CustomBottomNavigationBar extends GetView<BottomNavigationRouter> {
       () => BottomAppBar(
         elevation: 0,
         shape: const CircularNotchedRectangle(),
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.account_balance,
+        child: Theme(
+          data: ThemeData(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+          ),
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.account_balance,
+                ),
+                label: 'Transaction',
               ),
-              label: 'Transaction',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.pie_chart,
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.pie_chart,
+                ),
+                label: 'Report',
               ),
-              label: 'Report',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.timelapse,
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.transparent,
+                ),
+                label: "",
               ),
-              label: 'Planning',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.settings,
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.timelapse,
+                ),
+                label: 'Planning',
               ),
-              label: 'Settings',
-            ),
-          ],
-          currentIndex: controller.currentIdx.value,
-          onTap: controller.changePage,
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.settings,
+                ),
+                label: 'Settings',
+              ),
+            ],
+            currentIndex: controller.currentIdx.value,
+            onTap: controller.changePage,
+          ),
         ),
       ),
     );

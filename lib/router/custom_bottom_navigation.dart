@@ -14,11 +14,13 @@ class BottomNavigationRouter extends GetxController {
   final pages = <String>[
     constant.ROUTE_TRANSACTION,
     constant.ROUTE_REPORT,
+    '',
     constant.ROUTE_PLANNING,
     constant.ROUTE_SETTINGS,
   ];
 
   void changePage(int index) {
+    if (index == 2) return;
     currentIdx.value = index;
     Get.toNamed(
       pages[index],
