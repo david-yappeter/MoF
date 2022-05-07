@@ -3,14 +3,23 @@ import 'package:mof/theme/colors.dart';
 
 ThemeData customTheme = ThemeData(
   appBarTheme: const AppBarTheme(
-      color: CustomColor.white,
-      elevation: 0,
-      titleTextStyle: TextStyle(
-        color: Colors.black,
-      ),
-      toolbarTextStyle: TextStyle(
-        color: CustomColor.primary,
-      )),
+    color: CustomColor.white,
+    elevation: 5,
+    titleTextStyle: TextStyle(
+      color: Colors.black,
+    ),
+    toolbarTextStyle: TextStyle(
+      color: CustomColor.primary,
+    ),
+  ),
+  tabBarTheme: const TabBarTheme(
+    labelColor: Colors.black,
+    unselectedLabelColor: Colors.black54,
+    labelPadding: EdgeInsets.symmetric(horizontal: 30),
+    indicator: UnderlineTabIndicator(
+      borderSide: BorderSide(color: Colors.black, width: 2),
+    ),
+  ),
   primarySwatch: const MaterialColor(0xFF6A39FF, {
     50: Color(0xFFE8E8E8),
     100: Color(0xFFBDBDBD),
