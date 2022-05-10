@@ -7,9 +7,14 @@ ThemeData customTheme = ThemeData(
     elevation: 5,
     titleTextStyle: TextStyle(
       color: Colors.black,
+      fontWeight: FontWeight.bold,
+      fontSize: 20.0,
     ),
     toolbarTextStyle: TextStyle(
-      color: CustomColor.primary,
+      color: Colors.black,
+    ),
+    iconTheme: IconThemeData(
+      color: Colors.black,
     ),
   ),
   tabBarTheme: const TabBarTheme(

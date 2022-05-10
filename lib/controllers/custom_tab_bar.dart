@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CustomTabBar extends GetxController
+class TabBarController extends GetxController
     with GetSingleTickerProviderStateMixin {
   late TabController _controller;
-  final List<Tab> _myTabs = <Tab>[
+  final List<Tab> _tabs = const <Tab>[
     Tab(text: 'Tab 1'),
     Tab(text: 'Tab 2'),
     Tab(text: 'Tab 3'),
@@ -18,18 +18,16 @@ class CustomTabBar extends GetxController
   ];
 
   TabController get controller => _controller;
-  List<Tab> get myTabs => _myTabs;
+  List<Tab> get tabs => _tabs;
 
   @override
   void onInit() {
-    // TODO: implement onInit
-    _controller = TabController(length: 10, vsync: this);
+    _controller = TabController(length: _tabs.length, vsync: this);
     super.onInit();
   }
 
   @override
   void onClose() {
-    // TODO: implement onClose
     _controller.dispose();
     super.onClose();
   }
