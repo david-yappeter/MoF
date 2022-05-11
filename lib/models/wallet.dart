@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class WalletModel {
   final int id;
   final String name;

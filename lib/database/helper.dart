@@ -4,6 +4,7 @@ import 'package:path/path.dart' as path;
 class DBHelper {
   static const String categoryDBName = 'category';
   static const String walletDBName = 'wallet';
+  static const String transactionDBName = 'wallet';
 
   static Future<void> deleteDB() async {
     final dbPath = await sql.getDatabasesPath();
@@ -15,7 +16,7 @@ class DBHelper {
     return sql.openDatabase(
       path.join(dbPath, 'mof.db'),
       version: 1,
-      onCreate: (db, version) {
+      onCreate: (db, version) async {
         db.execute('''
         CREATE TABLE ${DBHelper.categoryDBName} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -32,6 +33,19 @@ class DBHelper {
           name TEXT NOT NULL,
           amount REAL NOT NULL,
           icon_id INTEGER
+        )
+        ''');
+        db.execute('''
+        CREATE TABLE ${DBHelper.transactionDBName} (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          amount REAL NOT NULL,
+          category_id INTEGER NOT NULL,
+          wallet_id INTEGER NOT NULL,
+          created_at TEXT NOT NULL,
+          updated_at TEXT NOT NULL,
+          FOREIGN KEY(category_id) REFERENCES ${DBHelper.categoryDBName}(id) ON DELETE CASCADE ON UPDATE CASCADE,
+          FOREIGN KEY(wallet_id) REFERENCES ${DBHelper.walletDBName}(id) ON DELETE CASCADE ON UPDATE CASCADE
         )
         ''');
 
@@ -59,6 +73,14 @@ class DBHelper {
           'updated_at': DateTime.now().toString(),
         });
 
+        db.insert(DBHelper.categoryDBName, {
+          'name': 'Food',
+          'icon_id': null,
+          'is_income': 0,
+          'created_at': DateTime.now().toString(),
+          'updated_at': DateTime.now().toString(),
+        });
+
         db.insert(DBHelper.walletDBName, {
           'name': 'Cash',
           'amount': 0,
@@ -77,13 +99,7 @@ class DBHelper {
           'icon_id': null,
         });
 
-        return db.insert(DBHelper.categoryDBName, {
-          'name': 'Food',
-          'icon_id': null,
-          'is_income': 0,
-          'created_at': DateTime.now().toString(),
-          'updated_at': DateTime.now().toString(),
-        });
+        return;
       },
     );
   }

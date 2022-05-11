@@ -60,5 +60,7 @@ class BottomNavigationRouter extends GetxController {
         transition: Transition.fade,
       );
     }
+
+    return null;
   }
 }

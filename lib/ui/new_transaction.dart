@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mof/controllers/new_transaction.dart';
-import 'package:mof/controllers/wallet.dart';
 import 'package:mof/models/category.dart';
 import 'package:mof/models/wallet.dart';
 import 'package:mof/ui/category_list.dart';
