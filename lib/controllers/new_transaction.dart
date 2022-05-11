@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mof/models/category.dart';
+import 'package:mof/models/wallet.dart';
 
 class NewTransactionController extends GetxController {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late TextEditingController _amountController,
-      _categoryController,
-      _dateController,
-      _walletController;
+  late TextEditingController amountController,
+      categoryController,
+      dateController,
+      walletController;
   double amount = 0.0;
-  int? categoryId;
+  CategoryModel? category;
   DateTime? date;
-  int? walletId;
+  WalletModel? wallet;
 
   GlobalKey<FormState> get formKey => _formKey;
-  TextEditingController get amountController => _amountController;
-  TextEditingController get categoryController => _categoryController;
-  TextEditingController get dateController => _dateController;
-  TextEditingController get walletController => _walletController;
 
   // final inputs = RxMap({
   //   'amount': RxDouble(0),
@@ -27,10 +25,10 @@ class NewTransactionController extends GetxController {
   void onInit() {
     super.onInit();
 
-    _amountController = TextEditingController();
-    _categoryController = TextEditingController();
-    _dateController = TextEditingController();
-    _walletController = TextEditingController();
+    amountController = TextEditingController();
+    categoryController = TextEditingController();
+    dateController = TextEditingController();
+    walletController = TextEditingController();
     // debounce<Map<String, Object>>(inputs, validations,
     //     time: const Duration(milliseconds: 500));
   }
@@ -38,21 +36,24 @@ class NewTransactionController extends GetxController {
   @override
   void dispose() {
     super.dispose();
-    _amountController.dispose();
-    _categoryController.dispose();
-    _dateController.dispose();
-    _walletController.dispose();
+    amountController.dispose();
+    categoryController.dispose();
+    dateController.dispose();
+    walletController.dispose();
   }
 
-  String? validateAmount(double value) {
+  String? validateAmount(double? value) {
+    if (value == null) {
+      return "Amount is required";
+    }
     if (value <= 0) {
       return 'Amount must be greater than 0';
     }
     return null;
   }
 
-  String? validateCategory(int? value) {
-    if (value == null || value <= 0) {
+  String? validateCategory(CategoryModel? value) {
+    if (value == null) {
       return 'Category must be selected';
     }
     return null;
@@ -65,8 +66,8 @@ class NewTransactionController extends GetxController {
     return null;
   }
 
-  String? validateWallet(int? value) {
-    if (value == null || value <= 0) {
+  String? validateWallet(WalletModel? value) {
+    if (value == null) {
       return 'Wallet must be selected';
     }
     return null;

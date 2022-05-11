@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mof/controllers/category.dart';
+import 'package:mof/controllers/wallet.dart';
 
-class CategoryList extends GetView<CategoryController> {
-  static const routeName = '/category-list';
-  const CategoryList({Key? key}) : super(key: key);
+class WalletUI extends GetView<WalletController> {
+  static const routeName = '/wallet';
+
+  const WalletUI({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Category List'),
+        title: const Text('Wallet List'),
       ),
       body: FutureBuilder(
         future: controller.fetchAndSet(),
@@ -20,23 +21,27 @@ class CategoryList extends GetView<CategoryController> {
               child: CircularProgressIndicator(),
             );
           }
-
           return Container(
-            margin: const EdgeInsets.only(top: 10.0, left: 16.0, right: 16.0),
+            margin: const EdgeInsets.only(
+              top: 10.0,
+              left: 16.0,
+              right: 16.0,
+            ),
             child: ListView.builder(
-              itemBuilder: (BuildContext ctx, int idx) {
-                final category = controller.categories[idx];
+              itemBuilder: (BuildContext context, int idx) {
+                final wallet = controller.wallets[idx];
+
                 return ListTile(
-                  title: Text(category.name),
-                  leading: category.iconId != null
-                      ? Icon(IconData(category.iconId as int))
+                  title: Text(wallet.name),
+                  leading: wallet.iconId != null
+                      ? Icon(IconData(wallet.iconId as int))
                       : null,
                   onTap: () {
-                    Get.back(result: category);
+                    Get.back(result: wallet);
                   },
                 );
               },
-              itemCount: controller.categories.length,
+              itemCount: controller.wallets.length,
             ),
           );
         },
