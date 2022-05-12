@@ -4,7 +4,7 @@ import 'package:path/path.dart' as path;
 class DBHelper {
   static const String categoryDBName = 'category';
   static const String walletDBName = 'wallet';
-  static const String transactionDBName = 'wallet';
+  static const String transactionDBName = 'user_transaction';
 
   static Future<void> deleteDB() async {
     final dbPath = await sql.getDatabasesPath();
@@ -38,14 +38,13 @@ class DBHelper {
         db.execute('''
         CREATE TABLE ${DBHelper.transactionDBName} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT NOT NULL,
           amount REAL NOT NULL,
           category_id INTEGER NOT NULL,
           wallet_id INTEGER NOT NULL,
           created_at TEXT NOT NULL,
           updated_at TEXT NOT NULL,
-          FOREIGN KEY(category_id) REFERENCES ${DBHelper.categoryDBName}(id) ON DELETE CASCADE ON UPDATE CASCADE,
-          FOREIGN KEY(wallet_id) REFERENCES ${DBHelper.walletDBName}(id) ON DELETE CASCADE ON UPDATE CASCADE
+          FOREIGN KEY(category_id) REFERENCES ${DBHelper.categoryDBName}(id),
+          FOREIGN KEY(wallet_id) REFERENCES ${DBHelper.walletDBName}(id)
         )
         ''');
 

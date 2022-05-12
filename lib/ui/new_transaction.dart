@@ -19,8 +19,9 @@ class NewTransactionScreen extends GetView<NewTransactionController> {
         title: const Text('New Transaction'),
         actions: [
           TextButton(
-            onPressed: () {
-              controller.onSubmit();
+            onPressed: () async {
+              await controller.onSubmit();
+              Get.back();
             },
             child: const Text('SAVE'),
           ),

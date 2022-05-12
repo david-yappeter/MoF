@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mof/database/helper.dart';
 import 'package:mof/models/category.dart';
 import 'package:mof/models/wallet.dart';
 
@@ -73,12 +74,21 @@ class NewTransactionController extends GetxController {
     return null;
   }
 
-  void onSubmit() {
+  Future<void> onSubmit() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return;
     }
     _formKey.currentState!.save();
+
+    final sqlDb = await DBHelper.database();
+    sqlDb.insert(DBHelper.transactionDBName, {
+      'amount': amount,
+      'category_id': category!.id,
+      'wallet_id': wallet!.id,
+      'created_at': date!.toIso8601String(),
+      'updated_at': date!.toIso8601String(),
+    });
   }
 
   void validations(Map<String, Object> val) async {
