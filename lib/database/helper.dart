@@ -118,4 +118,11 @@ class DBHelper {
 
     return sqlDb.query(table);
   }
+
+  static Future<List<Map<String, dynamic>>> rawQuery(String raw,
+      [List<Object?>? arguments]) async {
+    final sqlDb = await DBHelper.database();
+
+    return sqlDb.rawQuery(raw, arguments);
+  }
 }

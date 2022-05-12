@@ -14,9 +14,8 @@ import 'package:mof/ui/new_transaction.dart';
 import 'package:mof/ui/wallet.dart';
 
 void main() async {
-  print("pass hererere");
   await GetStorage.init();
-  await DBHelper.deleteDB();
+  // await DBHelper.deleteDB();
   runApp(const MyApp());
 }
 
