@@ -39,7 +39,7 @@ class Home extends GetView<BottomNavigationRouter> {
         child: const Icon(Icons.add),
         onPressed: () async {
           await Get.toNamed(NewTransactionScreen.routeName);
-          transactionController.fetchAndSet();
+          transactionController.fetchAndSetAuto();
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

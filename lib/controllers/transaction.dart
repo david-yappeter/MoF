@@ -30,17 +30,10 @@ class TransactionController extends GetxController {
 ''',
     );
 
-    Future<void> fetchAndSetAuto() {
-      final TabBarController tabbarController = Get.find();
-      final TransactionController transactionController = Get.find();
-      final dateRange = tabbarController.currentSelectedMonthRange;
-      return transactionController.fetchAndSet(
-        startDate: dateRange[0],
-        endDate: dateRange[1],
-      );
-    }
-
     transactions.clear();
+    totalInflow.value = 0.0;
+    totalOutflow.value = 0.0;
+
     transactions.addAll(dataList.map(
       (e) {
         if (e['category_is_income'] == 1) {
@@ -62,6 +55,16 @@ class TransactionController extends GetxController {
         );
       },
     ).toList());
+  }
+
+  Future<void> fetchAndSetAuto() {
+    final TabBarController tabbarController = Get.find();
+    final TransactionController transactionController = Get.find();
+    final dateRange = tabbarController.currentSelectedMonthRange;
+    return transactionController.fetchAndSet(
+      startDate: dateRange[0],
+      endDate: dateRange[1],
+    );
   }
 
   void add(TransactionModel transaction) {

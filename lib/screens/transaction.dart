@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mof/controllers/transaction.dart';
+import 'package:mof/formatter/currency.dart';
 import 'package:mof/theme/colors.dart';
 
 class TransactionScreen extends GetView<TransactionController> {
@@ -9,7 +10,7 @@ class TransactionScreen extends GetView<TransactionController> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: controller.fetchAndSet(),
+      future: controller.fetchAndSetAuto(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -29,7 +30,7 @@ class TransactionScreen extends GetView<TransactionController> {
                       margin: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 16.0),
                       width: double.infinity,
-                      height: 50.0,
+                      height: 90.0,
                       child: Column(
                         children: [
                           Row(
@@ -38,13 +39,14 @@ class TransactionScreen extends GetView<TransactionController> {
                               const Text(
                                 'Inflow',
                                 style: TextStyle(
-                                  fontSize: 20.0,
+                                  fontSize: 18.0,
                                   fontWeight: FontWeight.w500,
                                   color: CustomColor.textGray,
                                 ),
                               ),
                               Text(
-                                '${controller.totalInflow.value.toStringAsFixed(0)}',
+                                CurrencyFormatter.formatCurrency(
+                                    controller.totalInflow.value),
                                 style: const TextStyle(
                                   color: CustomColor.blue,
                                   fontWeight: FontWeight.w500,
@@ -59,13 +61,14 @@ class TransactionScreen extends GetView<TransactionController> {
                               const Text(
                                 'Outflow',
                                 style: TextStyle(
-                                  fontSize: 20.0,
+                                  fontSize: 18.0,
                                   fontWeight: FontWeight.w500,
                                   color: CustomColor.textGray,
                                 ),
                               ),
                               Text(
-                                '${controller.totalOutflow.value.toStringAsFixed(0)}',
+                                CurrencyFormatter.formatCurrency(
+                                    controller.totalOutflow.value),
                                 style: const TextStyle(
                                   color: CustomColor.red,
                                   fontWeight: FontWeight.w500,
@@ -73,6 +76,25 @@ class TransactionScreen extends GetView<TransactionController> {
                                 ),
                               ),
                             ],
+                          ),
+                          const Divider(
+                            thickness: 2.0,
+                            color: Colors.black,
+                            indent: 150,
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              CurrencyFormatter.formatCurrency(
+                                  controller.totalInflow.value -
+                                      controller.totalOutflow.value),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16.0,
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
                           ),
                         ],
                       ),
