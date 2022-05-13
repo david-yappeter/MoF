@@ -20,8 +20,10 @@ class NewTransactionScreen extends GetView<NewTransactionController> {
         actions: [
           TextButton(
             onPressed: () async {
-              await controller.onSubmit();
-              Get.back();
+              final success = await controller.onSubmit();
+              if (success) {
+                Get.back();
+              }
             },
             child: const Text('SAVE'),
           ),
@@ -74,6 +76,7 @@ class NewTransactionScreen extends GetView<NewTransactionController> {
                     ),
                   ),
                 ),
+                keyboardType: TextInputType.none,
                 onTap: () async {
                   Get.focusScope!.unfocus();
                   final data = await Get.toNamed(CategoryList.routeName);
@@ -97,9 +100,8 @@ class NewTransactionScreen extends GetView<NewTransactionController> {
                     child: const Icon(Icons.calendar_today),
                   ),
                 ),
-                keyboardType: TextInputType.datetime,
+                keyboardType: TextInputType.none,
                 onTap: () async {
-                  Get.focusScope!.unfocus();
                   final datetime = await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
@@ -119,6 +121,7 @@ class NewTransactionScreen extends GetView<NewTransactionController> {
               ),
               TextFormField(
                   controller: controller.walletController,
+                  keyboardType: TextInputType.none,
                   decoration: InputDecoration(
                     border: const UnderlineInputBorder(),
                     labelText: "Wallet",

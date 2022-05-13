@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mof/controllers/transaction.dart';
+// import 'package:mof/controllers/transaction.dart';
 import 'package:mof/database/helper.dart';
 import 'package:mof/models/category.dart';
-import 'package:mof/models/transaction.dart';
+// import 'package:mof/models/transaction.dart';
 import 'package:mof/models/wallet.dart';
 
 class NewTransactionController extends GetxController {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TransactionController transactionController =
-      Get.find<TransactionController>();
+  // final TransactionController transactionController =
+  //     Get.find<TransactionController>();
   late TextEditingController amountController,
       categoryController,
       dateController,
@@ -78,15 +78,16 @@ class NewTransactionController extends GetxController {
     return null;
   }
 
-  Future<void> onSubmit() async {
+  Future<bool> onSubmit() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
-      return;
+      return false;
     }
     _formKey.currentState!.save();
 
     final sqlDb = await DBHelper.database();
-    final id = await sqlDb.insert(DBHelper.transactionDBName, {
+    // final id = await sqlDb.insert(DBHelper.transactionDBName, {
+    await sqlDb.insert(DBHelper.transactionDBName, {
       'amount': amount,
       'category_id': category!.id,
       'wallet_id': wallet!.id,
@@ -94,16 +95,7 @@ class NewTransactionController extends GetxController {
       'updated_at': date!.toIso8601String(),
     });
 
-    transactionController.add(TransactionModel(
-      id: id,
-      amount: amount,
-      categoryId: category!.id,
-      walletId: wallet!.id,
-      createdAt: DateTime.parse(date!.toIso8601String()),
-      updatedAt: DateTime.parse(date!.toIso8601String()),
-      categoryName: category!.name,
-      categoryIsIncome: category!.isIncome == 1,
-    ));
+    return true;
   }
 
   void validations(Map<String, Object> val) async {

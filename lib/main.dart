@@ -3,7 +3,6 @@ import 'package:mof/bindings/category.dart';
 import 'package:mof/bindings/home.dart';
 import 'package:mof/bindings/new_transaction.dart';
 import 'package:mof/bindings/wallet.dart';
-import 'package:mof/database/helper.dart';
 import 'package:mof/screens/pin.dart';
 import 'package:mof/theme/theme_data.dart';
 import 'package:get/get.dart';

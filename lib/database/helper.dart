@@ -125,4 +125,18 @@ class DBHelper {
 
     return sqlDb.rawQuery(raw, arguments);
   }
+
+  static Future<List<Map<String, dynamic>>> rawQueryBuilder(
+      {required String select,
+      List<String>? joins,
+      List<String>? where}) async {
+    final sqlDb = await DBHelper.database();
+
+    return sqlDb.rawQuery('''
+    $select 
+    ${joins?.isNotEmpty == true ? joins!.join(' ') : ''}
+    ${where != null && where.isNotEmpty ? 'WHERE ' : ''}
+    ${where != null && where.isNotEmpty ? where.join(' AND ') : ''}
+    ''');
+  }
 }

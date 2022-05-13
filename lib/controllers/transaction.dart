@@ -1,18 +1,54 @@
 import 'package:get/get.dart';
+import 'package:mof/controllers/custom_tab_bar.dart';
 import 'package:mof/database/helper.dart';
 import 'package:mof/models/transaction.dart';
 
 class TransactionController extends GetxController {
   RxList<dynamic> transactions = [].obs;
+  RxDouble totalInflow = 0.0.obs;
+  RxDouble totalOutflow = 0.0.obs;
 
-  // RxList<dynamic> get transactions => _transactions;
+  Future<void> fetchAndSet({DateTime? startDate, DateTime? endDate}) async {
+    final whereFilter = [];
 
-  Future<void> fetchAndSet() async {
-    // final dataList = await DBHelper.getData(DBHelper.transactionDBName);
+    if (startDate != null) {
+      whereFilter.add('t.created_at >= date(\'${startDate.toString()}\')');
+    }
+    if (endDate != null) {
+      whereFilter.add(' t.created_at <= date(\'${endDate.toString()}\')');
+    }
+
     final dataList = await DBHelper.rawQuery(
-        'SELECT t.*, c.name as category_name, c.is_income as category_is_income FROM ${DBHelper.transactionDBName} as t INNER JOIN ${DBHelper.categoryDBName} as c ON t.category_id = c.id');
-    transactions = RxList(dataList.map(
+      '''
+        SELECT t.*, c.name as category_name, c.is_income as category_is_income 
+        FROM ${DBHelper.transactionDBName} as t 
+        INNER JOIN ${DBHelper.categoryDBName} as c 
+        ON t.category_id = c.id
+        ${whereFilter.isNotEmpty ? 'WHERE ' : ''}
+        ${whereFilter.join(' AND ')}
+        ORDER BY t.created_at DESC
+''',
+    );
+
+    Future<void> fetchAndSetAuto() {
+      final TabBarController tabbarController = Get.find();
+      final TransactionController transactionController = Get.find();
+      final dateRange = tabbarController.currentSelectedMonthRange;
+      return transactionController.fetchAndSet(
+        startDate: dateRange[0],
+        endDate: dateRange[1],
+      );
+    }
+
+    transactions.clear();
+    transactions.addAll(dataList.map(
       (e) {
+        if (e['category_is_income'] == 1) {
+          totalInflow.value += e['amount'] as double;
+        } else {
+          totalOutflow.value += e['amount'] as double;
+        }
+
         return TransactionModel(
           id: e["id"],
           amount: e["amount"],
