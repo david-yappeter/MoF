@@ -38,6 +38,7 @@ dependencies:
   intl: ^0.17.0
   get: ^4.6.1
   get_storage: ^2.0.3
+  introduction_screen: ^3.0.2
 
 dev_dependencies:
   flutter_test:
