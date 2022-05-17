@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mof/bindings/category.dart';
 import 'package:mof/bindings/home.dart';
+import 'package:mof/bindings/introduction.dart';
 import 'package:mof/bindings/new_transaction.dart';
 import 'package:mof/bindings/wallet.dart';
 import 'package:mof/screens/pin.dart';
@@ -9,27 +10,43 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mof/ui/category_list.dart';
 import 'package:mof/ui/home.dart';
+import 'package:mof/ui/introduction.dart';
 import 'package:mof/ui/new_transaction.dart';
 import 'package:mof/ui/wallet.dart';
 
 void main() async {
   await GetStorage.init();
   // await DBHelper.deleteDB();
-  runApp(const MyApp());
+  GetStorage().remove('showHome');
+  final bool showHome = GetStorage().read('showHome') ?? false;
+  final dynamic userPin = GetStorage().read('user_pin');
+
+  runApp(MyApp(
+    showHome: showHome,
+    userPin: userPin,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final bool showHome;
+  final dynamic userPin;
+
+  const MyApp({
+    Key? key,
+    required this.showHome,
+    required this.userPin,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final localStorage = GetStorage();
-    final userPin = localStorage.read('user_pin');
-
     return GetMaterialApp(
       title: 'Minister of Finance',
       theme: customTheme,
-      initialRoute: (userPin != null) ? PinScreen.routeName : Home.routeName,
+      initialRoute: !showHome
+          ? IntroductionUI.routeName
+          : (userPin != null)
+              ? PinScreen.routeName
+              : Home.routeName,
       getPages: [
         GetPage(
           name: PinScreen.routeName,
@@ -54,6 +71,11 @@ class MyApp extends StatelessWidget {
           name: WalletUI.routeName,
           page: () => const WalletUI(),
           binding: WalletBinding(),
+        ),
+        GetPage(
+          name: IntroductionUI.routeName,
+          page: () => const IntroductionUI(),
+          binding: IntroductionBinding(),
         ),
       ],
     );

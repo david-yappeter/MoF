@@ -7,7 +7,7 @@ class SettingScreen extends StatelessWidget {
   Widget buildSectionTitle(String title) {
     return Text(
       title,
-      style: TextStyle(
+      style: const TextStyle(
         fontWeight: FontWeight.w500,
         color: CustomColor.blue,
       ),

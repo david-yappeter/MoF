@@ -32,10 +32,6 @@ class Home extends GetView<BottomNavigationRouter> {
               final data =
                   await Get.toNamed(WalletUI.routeName) as WalletModel?;
               if (data == null) return;
-              print(data.id);
-              print(data.amount);
-              print(data.iconId);
-              print(data.name);
             },
           ),
         ),
