@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:mof/const/storage.dart';
 import 'package:mof/controllers/introduction.dart';
 import 'package:mof/theme/colors.dart';
 import 'package:mof/ui/home.dart';
@@ -17,35 +18,37 @@ class IntroductionUI extends GetView<IntroductionController> {
     required String title,
     required String description,
   }) =>
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40),
-        color: CustomColor.background,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(
-                width: double.infinity,
-                height: 300.0,
-                child: Image.asset(imageAssetLink, fit: BoxFit.cover),
-              ),
-              const SizedBox(height: 20.0),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 26,
-                  color: CustomColor.primary,
+      SafeArea(
+        child: Container(
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 40.0),
+          color: CustomColor.background,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  height: 300.0,
+                  child: Image.asset(imageAssetLink, fit: BoxFit.cover),
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20.0),
-              Text(
-                description,
-                style: const TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
-              ),
-            ],
+                const SizedBox(height: 20.0),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 26,
+                    color: CustomColor.primary,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20.0),
+                Text(
+                  description,
+                  style: const TextStyle(fontSize: 16),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
         ),
       );
@@ -66,6 +69,7 @@ class IntroductionUI extends GetView<IntroductionController> {
                 title: 'Welcome to Minister of Finance',
                 description:
                     'Mof is a free to use financial management app that helps you manage your finances.',
+                // 'Manage your money, manage your life',
               ),
               buildSlideView(
                 imageAssetLink: 'assets/images/business-analysis.png',
@@ -76,8 +80,8 @@ class IntroductionUI extends GetView<IntroductionController> {
               SafeArea(
                 child: Container(
                   color: CustomColor.background,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 32.0),
+                  padding:
+                      const EdgeInsets.only(left: 16.0, right: 16.0, top: 32.0),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -166,11 +170,11 @@ class IntroductionUI extends GetView<IntroductionController> {
                             )
                           : TextButton(
                               child: const Text('GET STARTED'),
-                              onPressed: () {
-                                GetStorage().write('showHome', true);
-                                final success = controller.onSubmit();
+                              onPressed: () async {
+                                GetStorage().write(SHOW_HOME, true);
+                                final success = await controller.onSubmit();
                                 if (success) {
-                                  Get.replace(Home.routeName);
+                                  Get.offAllNamed(Home.routeName);
                                 }
                               },
                             ),

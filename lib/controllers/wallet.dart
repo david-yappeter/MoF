@@ -21,15 +21,25 @@ class WalletController extends GetxController {
         .toList();
   }
 
-  Future<void> insert({
+  Future<int> insert({
     required String name,
     required double amount,
-    required int iconId,
-  }) async {
-    DBHelper.insert(DBHelper.walletDBName, {
+    int? iconId,
+  }) {
+    return DBHelper.insert(DBHelper.walletDBName, {
       'name': name,
       'amount': amount,
-      'iconId': iconId,
+      'icon_id': iconId,
     });
   }
+
+  WalletModel getById(int id) {
+    return _wallets.firstWhere((e) => e.id == id);
+  }
+
+  // WalletModel getById(int id) {
+  //   return DBHelper.rawQuery('''
+  //   SELECT FROM * ${DBHelper.walletDBName} WHERE id = ${id}
+  // ''');
+  // }
 }

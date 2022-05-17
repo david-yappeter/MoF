@@ -48,65 +48,65 @@ class DBHelper {
         )
         ''');
 
-        db.insert(DBHelper.categoryDBName, {
-          'name': 'Transfer In',
-          'icon_id': null,
-          'is_income': 1,
-          'created_at': DateTime.now().toString(),
-          'updated_at': DateTime.now().toString(),
-        });
+        // db.insert(DBHelper.categoryDBName, {
+        //   'name': 'Transfer In',
+        //   'icon_id': null,
+        //   'is_income': 1,
+        //   'created_at': DateTime.now().toString(),
+        //   'updated_at': DateTime.now().toString(),
+        // });
 
-        db.insert(DBHelper.categoryDBName, {
-          'name': 'Salary',
-          'icon_id': null,
-          'is_income': 1,
-          'created_at': DateTime.now().toString(),
-          'updated_at': DateTime.now().toString(),
-        });
+        // db.insert(DBHelper.categoryDBName, {
+        //   'name': 'Salary',
+        //   'icon_id': null,
+        //   'is_income': 1,
+        //   'created_at': DateTime.now().toString(),
+        //   'updated_at': DateTime.now().toString(),
+        // });
 
-        db.insert(DBHelper.categoryDBName, {
-          'name': 'Bill',
-          'icon_id': null,
-          'is_income': 0,
-          'created_at': DateTime.now().toString(),
-          'updated_at': DateTime.now().toString(),
-        });
+        // db.insert(DBHelper.categoryDBName, {
+        //   'name': 'Bill',
+        //   'icon_id': null,
+        //   'is_income': 0,
+        //   'created_at': DateTime.now().toString(),
+        //   'updated_at': DateTime.now().toString(),
+        // });
 
-        db.insert(DBHelper.categoryDBName, {
-          'name': 'Food',
-          'icon_id': null,
-          'is_income': 0,
-          'created_at': DateTime.now().toString(),
-          'updated_at': DateTime.now().toString(),
-        });
+        // db.insert(DBHelper.categoryDBName, {
+        //   'name': 'Food',
+        //   'icon_id': null,
+        //   'is_income': 0,
+        //   'created_at': DateTime.now().toString(),
+        //   'updated_at': DateTime.now().toString(),
+        // });
 
-        db.insert(DBHelper.walletDBName, {
-          'name': 'Cash',
-          'amount': 0,
-          'icon_id': null,
-        });
+        // db.insert(DBHelper.walletDBName, {
+        //   'name': 'Cash',
+        //   'amount': 0,
+        //   'icon_id': null,
+        // });
 
-        db.insert(DBHelper.walletDBName, {
-          'name': 'Bank',
-          'amount': 0,
-          'icon_id': null,
-        });
+        // db.insert(DBHelper.walletDBName, {
+        //   'name': 'Bank',
+        //   'amount': 0,
+        //   'icon_id': null,
+        // });
 
-        db.insert(DBHelper.walletDBName, {
-          'name': 'Other',
-          'amount': 0,
-          'icon_id': null,
-        });
+        // db.insert(DBHelper.walletDBName, {
+        //   'name': 'Other',
+        //   'amount': 0,
+        //   'icon_id': null,
+        // });
 
         return;
       },
     );
   }
 
-  static Future<void> insert(String table, Map<String, dynamic> data) async {
+  static Future<int> insert(String table, Map<String, dynamic> data) async {
     final sqlDb = await DBHelper.database();
 
-    await sqlDb.insert(
+    return sqlDb.insert(
       table,
       data,
       conflictAlgorithm: sql.ConflictAlgorithm.replace,

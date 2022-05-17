@@ -4,6 +4,9 @@ import 'package:mof/bindings/home.dart';
 import 'package:mof/bindings/introduction.dart';
 import 'package:mof/bindings/new_transaction.dart';
 import 'package:mof/bindings/wallet.dart';
+import 'package:mof/const/storage.dart';
+import 'package:mof/controllers/category.dart';
+import 'package:mof/controllers/wallet.dart';
 import 'package:mof/screens/pin.dart';
 import 'package:mof/theme/theme_data.dart';
 import 'package:get/get.dart';
@@ -17,9 +20,12 @@ import 'package:mof/ui/wallet.dart';
 void main() async {
   await GetStorage.init();
   // await DBHelper.deleteDB();
-  GetStorage().remove('showHome');
-  final bool showHome = GetStorage().read('showHome') ?? false;
-  final dynamic userPin = GetStorage().read('user_pin');
+  // GetStorage().remove(SHOW_HOME);
+  final bool showHome = GetStorage().read(SHOW_HOME) ?? false;
+  final dynamic userPin = GetStorage().read(USER_PIN);
+
+  Get.put(WalletController());
+  Get.put(CategoryController());
 
   runApp(MyApp(
     showHome: showHome,

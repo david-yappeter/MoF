@@ -23,18 +23,18 @@ class CategoryController extends GetxController {
         .toList();
   }
 
-  Future<void> insert({
+  Future<int> insert({
     required String name,
     int? iconId,
-    required bool isIncome,
+    required int isIncome,
     required DateTime createdAt,
-  }) async {
-    DBHelper.insert(DBHelper.categoryDBName, {
+  }) {
+    return DBHelper.insert(DBHelper.categoryDBName, {
       'name': name,
-      'iconId': iconId,
+      'icon_id': iconId,
       'is_income': isIncome,
-      'created_at': createdAt,
-      'updated_at': createdAt,
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': createdAt.toIso8601String(),
     });
   }
 
