@@ -23,6 +23,21 @@ class CategoryController extends GetxController {
         .toList();
   }
 
+  Future<void> insert({
+    required String name,
+    int? iconId,
+    required bool isIncome,
+    required DateTime createdAt,
+  }) async {
+    DBHelper.insert(DBHelper.categoryDBName, {
+      'name': name,
+      'iconId': iconId,
+      'is_income': isIncome,
+      'created_at': createdAt,
+      'updated_at': createdAt,
+    });
+  }
+
   List<CategoryModel> get getExpense =>
       _categories.where((e) => e.isIncome == 0).toList();
   List<CategoryModel> get getIncome =>

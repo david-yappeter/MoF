@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mof/controllers/introduction.dart';
 import 'package:mof/theme/colors.dart';
+import 'package:mof/ui/home.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class IntroductionUI extends GetView<IntroductionController> {
@@ -19,15 +20,33 @@ class IntroductionUI extends GetView<IntroductionController> {
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40),
         color: CustomColor.background,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(imageAssetLink),
-            const SizedBox(height: 20.0),
-            Text(title, style: const TextStyle(fontSize: 26)),
-            const SizedBox(height: 20.0),
-            Text(description, style: const TextStyle(fontSize: 16)),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                width: double.infinity,
+                height: 300.0,
+                child: Image.asset(imageAssetLink, fit: BoxFit.cover),
+              ),
+              const SizedBox(height: 20.0),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 26,
+                  color: CustomColor.primary,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20.0),
+              Text(
+                description,
+                style: const TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       );
 
@@ -44,18 +63,63 @@ class IntroductionUI extends GetView<IntroductionController> {
             children: [
               buildSlideView(
                 imageAssetLink: 'assets/images/money-investment.png',
-                title: 'TITLE',
-                description: 'DESCRIPTION',
+                title: 'Welcome to Minister of Finance',
+                description:
+                    'Mof is a free to use financial management app that helps you manage your finances.',
               ),
               buildSlideView(
-                imageAssetLink: 'assets/images/money-investment.png',
-                title: 'TITLE',
-                description: 'DESCRIPTION',
+                imageAssetLink: 'assets/images/business-analysis.png',
+                title: 'Tracking',
+                description:
+                    'Track your expenses and see how much you spend each month.',
               ),
-              buildSlideView(
-                imageAssetLink: 'assets/images/money-investment.png',
-                title: 'TITLE',
-                description: 'DESCRIPTION',
+              SafeArea(
+                child: Container(
+                  color: CustomColor.background,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 32.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const Text(
+                          "Let's get started",
+                          style: TextStyle(
+                            fontSize: 28.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 40.0),
+                        TextFormField(
+                          controller: controller.firstWalletNameController,
+                          decoration: const InputDecoration(
+                            labelText: 'Wallet name',
+                            hintText: 'Enter your wallet name',
+                            border: OutlineInputBorder(),
+                          ),
+                          validator: controller.validateWallet,
+                          onSaved: (String? value) {
+                            if (value == null) return;
+                            controller.firstWalletName.value = value;
+                          },
+                        ),
+                        const SizedBox(height: 10.0),
+                        TextFormField(
+                          controller: controller.expenseCategoryNameController,
+                          decoration: const InputDecoration(
+                            labelText: 'Expense Category Name',
+                            hintText: 'Enter your Category Name',
+                            border: OutlineInputBorder(),
+                          ),
+                          validator: controller.validateCategory,
+                          onSaved: (String? value) {
+                            if (value == null) return;
+                            controller.expenseCategoryName.value = value;
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -104,6 +168,10 @@ class IntroductionUI extends GetView<IntroductionController> {
                               child: const Text('GET STARTED'),
                               onPressed: () {
                                 GetStorage().write('showHome', true);
+                                final success = controller.onSubmit();
+                                if (success) {
+                                  Get.replace(Home.routeName);
+                                }
                               },
                             ),
                     ),

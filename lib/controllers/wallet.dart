@@ -20,4 +20,16 @@ class WalletController extends GetxController {
         )
         .toList();
   }
+
+  Future<void> insert({
+    required String name,
+    required double amount,
+    required int iconId,
+  }) async {
+    DBHelper.insert(DBHelper.walletDBName, {
+      'name': name,
+      'amount': amount,
+      'iconId': iconId,
+    });
+  }
 }
