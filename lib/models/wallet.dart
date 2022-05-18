@@ -10,4 +10,13 @@ class WalletModel {
     required this.amount,
     this.iconId,
   });
+
+  static WalletModel parse(dynamic data) {
+    return WalletModel(
+      id: data['id'],
+      name: data['name'],
+      amount: data['amount'],
+      iconId: data['icon_id'],
+    );
+  }
 }

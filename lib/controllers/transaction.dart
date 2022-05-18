@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mof/controllers/custom_tab_bar.dart';
+import 'package:mof/controllers/list_tile_wallet.dart';
 import 'package:mof/database/helper.dart';
 import 'package:mof/models/transaction.dart';
 
@@ -8,7 +9,8 @@ class TransactionController extends GetxController {
   RxDouble totalInflow = 0.0.obs;
   RxDouble totalOutflow = 0.0.obs;
 
-  Future<void> fetchAndSet({DateTime? startDate, DateTime? endDate}) async {
+  Future<void> fetchAndSet(
+      {DateTime? startDate, DateTime? endDate, int? walletId}) async {
     final whereFilter = [];
 
     if (startDate != null) {
@@ -16,6 +18,10 @@ class TransactionController extends GetxController {
     }
     if (endDate != null) {
       whereFilter.add(' t.created_at <= date(\'${endDate.toString()}\')');
+    }
+
+    if (walletId != null) {
+      whereFilter.add(' t.wallet_id = $walletId');
     }
 
     final dataList = await DBHelper.rawQuery(
@@ -29,6 +35,8 @@ class TransactionController extends GetxController {
         ORDER BY t.created_at DESC
 ''',
     );
+    print(walletId);
+    print(dataList);
 
     transactions.clear();
     totalInflow.value = 0.0;
@@ -60,10 +68,15 @@ class TransactionController extends GetxController {
   Future<void> fetchAndSetAuto() {
     final TabBarController tabbarController = Get.find();
     final TransactionController transactionController = Get.find();
+    final ListTileWalletController listTileWalletController = Get.find();
     final dateRange = tabbarController.currentSelectedMonthRange;
+    final selectedWalletId = listTileWalletController.selectedWalletId;
+
+    print('ASDASD ${selectedWalletId.toString()}');
     return transactionController.fetchAndSet(
       startDate: dateRange[0],
       endDate: dateRange[1],
+      walletId: selectedWalletId,
     );
   }
 

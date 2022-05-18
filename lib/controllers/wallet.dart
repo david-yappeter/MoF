@@ -33,13 +33,13 @@ class WalletController extends GetxController {
     });
   }
 
-  WalletModel getById(int id) {
-    return _wallets.firstWhere((e) => e.id == id);
-  }
-
   // WalletModel getById(int id) {
-  //   return DBHelper.rawQuery('''
-  //   SELECT FROM * ${DBHelper.walletDBName} WHERE id = ${id}
-  // ''');
+  //   return _wallets.firstWhere((e) => e.id == id);
   // }
+
+  Future<List<Map<String, dynamic>>> getById(int id) async {
+    return DBHelper.rawQuery('''
+    SELECT * FROM ${DBHelper.walletDBName} WHERE id = $id LIMIT 1
+  ''');
+  }
 }

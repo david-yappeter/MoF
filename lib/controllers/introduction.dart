@@ -1,8 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:mof/const/storage.dart';
 import 'package:mof/controllers/category.dart';
+import 'package:mof/controllers/list_tile_wallet.dart';
 import 'package:mof/controllers/wallet.dart';
 
 class IntroductionController extends GetxController {
@@ -36,6 +35,7 @@ class IntroductionController extends GetxController {
     if (formKey.currentState!.validate()) {
       final WalletController walletController = Get.find();
       final CategoryController categoryController = Get.find();
+      final ListTileWalletController listTileWalletController = Get.find();
 
       formKey.currentState!.save();
 
@@ -49,7 +49,7 @@ class IntroductionController extends GetxController {
           name: firstWalletName.value, amount: 0.0);
 
       // Select initial wallet
-      GetStorage().write(SELECTED_WALLET, walletId);
+      listTileWalletController.setSelectedWallet(walletId);
 
       return true;
     }

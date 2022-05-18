@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mof/controllers/pin_controller.dart';
+import 'package:mof/controllers/pin.dart';
 import 'package:mof/theme/colors.dart';
 
 class PinScreen extends StatelessWidget {
@@ -53,11 +53,9 @@ class PinScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline1,
                 textAlign: TextAlign.center,
               ),
-              Obx(
-                () => Text(
-                  'Minister of Finance ${pin.pin}',
-                  style: Theme.of(context).textTheme.headline2,
-                ),
+              Text(
+                'Minister of Finance',
+                style: Theme.of(context).textTheme.headline2,
               ),
               const SizedBox(height: 20),
               Obx(
@@ -74,13 +72,6 @@ class PinScreen extends StatelessWidget {
                         radius: 8.0,
                       ),
                     ),
-                    // .map(
-                    //   (e) => const CircleAvatar(
-                    //     backgroundColor: pin.pin.value.length >  CustomColor.whiteLight,
-                    //     radius: 8.0,
-                    //   ),
-                    // )
-                    // .toList(),
                   ),
                 ),
               ),
@@ -92,13 +83,6 @@ class PinScreen extends StatelessWidget {
                     crossAxisCount: 3,
                     childAspectRatio: 3 / 2,
                   ),
-                  // itemCount: 9,
-                  // itemBuilder: (BuildContext ctx, int index) {
-                  //   return buildTapButton(
-                  //     onTap: () {},
-                  //     text: (index + 1).toString(),
-                  //   );
-                  // },
                   children: [
                     buildTapButton(
                       onTap: () => pin.append(1),
@@ -152,38 +136,6 @@ class PinScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              // Expanded(
-              //   child: GridView(
-              //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              //       crossAxisCount: 3,
-              //       childAspectRatio: 3 / 2,
-              //     ),
-              //     children: [
-              //       buildTapButton(
-              //         onTap: () {},
-              //         text: 'Cancel',
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // SliverGrid(
-              //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              //       crossAxisCount: 3),
-              //   delegate: SliverChildBuilderDelegate(
-              //     (context, index) => Container(
-              //       child: Text((index + 1).toString()),
-              //     ),
-              //   ),
-              // ),
-              // Row(
-              //   children: List.generate(9, (index) => index + 1)
-              //       .map(
-              //         (e) => Expanded(
-              //           child: Text(e.toString()),
-              //         ),
-              //       )
-              //       .toList(),
-              // ),
             ],
           ),
         ),

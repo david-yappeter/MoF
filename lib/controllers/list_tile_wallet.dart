@@ -1,14 +1,14 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mof/const/storage.dart';
-import 'package:mof/models/wallet.dart';
 
 class ListTileWalletController extends GetxController {
-  // Rx<WalletModel> selectedWallet;
+  RxInt selectedWallet = (GetStorage().read(SELECTED_WALLET) as int).obs;
 
-  // @override
-  // void onInit() async {
-  //   selectedWallet = await
-  //   super.onInit();
-  // }
+  int get selectedWalletId => selectedWallet.value;
+
+  void setSelectedWallet(int id) {
+    GetStorage().write(SELECTED_WALLET, id);
+    selectedWallet.value = id;
+  }
 }

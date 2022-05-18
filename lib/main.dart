@@ -21,6 +21,7 @@ void main() async {
   await GetStorage.init();
   // await DBHelper.deleteDB();
   // GetStorage().remove(SHOW_HOME);
+  GetStorage().write(USER_PIN, '123456');
   final bool showHome = GetStorage().read(SHOW_HOME) ?? false;
   final dynamic userPin = GetStorage().read(USER_PIN);
 
