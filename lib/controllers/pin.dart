@@ -15,7 +15,9 @@ class PinController extends GetxController {
       final success = check();
       if (success) {
         error.value = false;
-        Get.offAllNamed(Home.routeName);
+        Future.delayed(const Duration(seconds: 1), () {
+          Get.offAllNamed(Home.routeName);
+        });
       } else {
         error.value = true;
       }
@@ -34,7 +36,9 @@ class PinController extends GetxController {
   bool check() {
     final userPin = GetStorage().read(USER_PIN);
     final success = userPin == pin.value;
-    if (!success) clear();
+    if (!success) {
+      Future.delayed(const Duration(milliseconds: 500), () => clear());
+    }
 
     return success;
   }

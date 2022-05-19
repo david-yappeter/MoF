@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mof/controllers/list_tile_wallet.dart';
+import 'package:mof/controllers/wallet.dart';
 // import 'package:mof/controllers/transaction.dart';
 import 'package:mof/database/helper.dart';
 import 'package:mof/models/category.dart';
@@ -8,8 +10,6 @@ import 'package:mof/models/wallet.dart';
 
 class NewTransactionController extends GetxController {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  // final TransactionController transactionController =
-  //     Get.find<TransactionController>();
   late TextEditingController amountController,
       categoryController,
       dateController,
@@ -21,11 +21,6 @@ class NewTransactionController extends GetxController {
 
   GlobalKey<FormState> get formKey => _formKey;
 
-  // final inputs = RxMap({
-  //   'amount': RxDouble(0),
-  //   'categoryId': RxnInt(null),
-  // });
-
   @override
   void onInit() {
     super.onInit();
@@ -34,8 +29,6 @@ class NewTransactionController extends GetxController {
     categoryController = TextEditingController();
     dateController = TextEditingController();
     walletController = TextEditingController();
-    // debounce<Map<String, Object>>(inputs, validations,
-    //     time: const Duration(milliseconds: 500));
   }
 
   @override
@@ -85,6 +78,8 @@ class NewTransactionController extends GetxController {
     }
     _formKey.currentState!.save();
 
+    final WalletController walletController = Get.find();
+    final ListTileWalletController listTileWalletController = Get.find();
     final sqlDb = await DBHelper.database();
     // final id = await sqlDb.insert(DBHelper.transactionDBName, {
     await sqlDb.insert(DBHelper.transactionDBName, {
@@ -94,6 +89,11 @@ class NewTransactionController extends GetxController {
       'created_at': date!.toIso8601String(),
       'updated_at': date!.toIso8601String(),
     });
+    await walletController.updateAmount(
+        walletId: wallet!.id,
+        amount: category!.isIncome == 1 ? amount : amount * -1);
+
+    listTileWalletController.reload();
 
     return true;
   }

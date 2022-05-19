@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mof/controllers/list_tile_wallet.dart';
+import 'package:mof/controllers/transaction.dart';
 import 'package:mof/controllers/wallet.dart';
 import 'package:mof/formatter/currency.dart';
 import 'package:mof/models/wallet.dart';
@@ -30,10 +31,12 @@ class ListTileWallet extends GetView<ListTileWalletController> {
             subtitle:
                 Text(CurrencyFormatter.formatCurrency(selectedWallet.amount)),
             onTap: () async {
+              final TransactionController transactionController = Get.find();
               final data =
                   await Get.toNamed(WalletUI.routeName) as WalletModel?;
               if (data == null) return;
               controller.setSelectedWallet(data.id);
+              transactionController.fetchAndSetAuto();
             },
           );
         },

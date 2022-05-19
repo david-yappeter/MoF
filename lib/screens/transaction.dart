@@ -115,7 +115,7 @@ class TransactionScreen extends GetView<TransactionController> {
                           ? Icon(IconData(transaction.iconId as int))
                           : null,
                       trailing: Text(
-                        "(${transaction.amount.toString()})",
+                        CurrencyFormatter.formatCurrency(transaction.amount),
                         style: TextStyle(
                           color: transaction.categoryIsIncome
                               ? Colors.green

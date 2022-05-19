@@ -20,7 +20,7 @@ class BottomNavigationRouter extends GetxController {
   ];
 
   void changePage(int index) {
-    if (index == 2) return;
+    if (index == 2 || currentIdx.value == index) return;
     currentIdx.value = index;
     Get.toNamed(
       pages[index],

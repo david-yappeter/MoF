@@ -42,4 +42,16 @@ class WalletController extends GetxController {
     SELECT * FROM ${DBHelper.walletDBName} WHERE id = $id LIMIT 1
   ''');
   }
+
+  Future<void> updateAmount({
+    required int walletId,
+    required double amount,
+  }) async {
+    final sqlDb = await DBHelper.database();
+    return sqlDb.execute('''
+    UPDATE ${DBHelper.walletDBName}
+    SET amount = amount + $amount
+    WHERE id = $walletId
+  ''');
+  }
 }

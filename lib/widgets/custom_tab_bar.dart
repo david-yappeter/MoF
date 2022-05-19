@@ -18,9 +18,7 @@ class CustomTabBar extends GetView<TabBarController> with PreferredSizeWidget {
               controller: controller.controller,
               tabs: controller.tabs,
               onTap: (idx) {
-                final dateRange = controller.currentSelectedMonthRange;
-                transactionController.fetchAndSet(
-                    startDate: dateRange[0], endDate: dateRange[1]);
+                transactionController.fetchAndSetAuto();
               },
             )
           : Container(),

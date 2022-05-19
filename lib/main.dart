@@ -3,9 +3,11 @@ import 'package:mof/bindings/category.dart';
 import 'package:mof/bindings/home.dart';
 import 'package:mof/bindings/introduction.dart';
 import 'package:mof/bindings/new_transaction.dart';
+import 'package:mof/bindings/set_pin.dart';
 import 'package:mof/bindings/wallet.dart';
 import 'package:mof/const/storage.dart';
 import 'package:mof/controllers/category.dart';
+import 'package:mof/controllers/list_tile_wallet.dart';
 import 'package:mof/controllers/wallet.dart';
 import 'package:mof/screens/pin.dart';
 import 'package:mof/theme/theme_data.dart';
@@ -15,18 +17,20 @@ import 'package:mof/ui/category_list.dart';
 import 'package:mof/ui/home.dart';
 import 'package:mof/ui/introduction.dart';
 import 'package:mof/ui/new_transaction.dart';
+import 'package:mof/ui/set_pin.dart';
 import 'package:mof/ui/wallet.dart';
 
 void main() async {
   await GetStorage.init();
   // await DBHelper.deleteDB();
   // GetStorage().remove(SHOW_HOME);
-  GetStorage().write(USER_PIN, '123456');
+  // GetStorage().write(USER_PIN, '123456');
   final bool showHome = GetStorage().read(SHOW_HOME) ?? false;
   final dynamic userPin = GetStorage().read(USER_PIN);
 
   Get.put(WalletController());
   Get.put(CategoryController());
+  Get.put(ListTileWalletController());
 
   runApp(MyApp(
     showHome: showHome,
@@ -83,6 +87,11 @@ class MyApp extends StatelessWidget {
           name: IntroductionUI.routeName,
           page: () => const IntroductionUI(),
           binding: IntroductionBinding(),
+        ),
+        GetPage(
+          name: SetPinScreen.routeName,
+          page: () => const SetPinScreen(),
+          binding: SetPinBinding(),
         ),
       ],
     );

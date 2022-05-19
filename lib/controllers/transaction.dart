@@ -32,11 +32,9 @@ class TransactionController extends GetxController {
         ON t.category_id = c.id
         ${whereFilter.isNotEmpty ? 'WHERE ' : ''}
         ${whereFilter.join(' AND ')}
-        ORDER BY t.created_at DESC
+        ORDER BY t.created_at DESC, t.id DESC
 ''',
     );
-    print(walletId);
-    print(dataList);
 
     transactions.clear();
     totalInflow.value = 0.0;
@@ -72,7 +70,6 @@ class TransactionController extends GetxController {
     final dateRange = tabbarController.currentSelectedMonthRange;
     final selectedWalletId = listTileWalletController.selectedWalletId;
 
-    print('ASDASD ${selectedWalletId.toString()}');
     return transactionController.fetchAndSet(
       startDate: dateRange[0],
       endDate: dateRange[1],
@@ -83,4 +80,15 @@ class TransactionController extends GetxController {
   void add(TransactionModel transaction) {
     transactions.add(transaction);
   }
+
+  // Future<void> updateAmount(
+  //     {required int walletId, required double amount}) async {
+  //   final sqlDb = await DBHelper.database();
+
+  //   return sqlDb.execute('''
+  //     UPDATE ${DBHelper.transactionDBName}
+  //     SET amount = amount + $amount
+  //     WHERE wallet_id = $walletId
+  //   ''');
+  // }
 }
