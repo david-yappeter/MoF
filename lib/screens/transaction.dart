@@ -101,6 +101,19 @@ class TransactionScreen extends GetView<TransactionController> {
                     ),
                   ),
                 ),
+                Card(
+                  color: Colors.white,
+                  child: Column(
+                    children: const [
+                      ListTile(
+                        leading: Text("03"),
+                        title: Text("Today"),
+                        subtitle: Text('April 2022'),
+                        trailing: Text("1.000.000"),
+                      ),
+                    ],
+                  ),
+                ),
                 Expanded(
                     child: ListView.builder(
                   itemCount: controller.transactions.length,

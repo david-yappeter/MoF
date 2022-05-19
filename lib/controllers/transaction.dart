@@ -6,6 +6,8 @@ import 'package:mof/models/transaction.dart';
 
 class TransactionController extends GetxController {
   RxList<dynamic> transactions = [].obs;
+  RxMap<String, List<TransactionModel>> groupedTransaction =
+      <String, List<TransactionModel>>{}.obs;
   RxDouble totalInflow = 0.0.obs;
   RxDouble totalOutflow = 0.0.obs;
 
@@ -37,30 +39,41 @@ class TransactionController extends GetxController {
     );
 
     transactions.clear();
+    groupedTransaction.clear();
     totalInflow.value = 0.0;
     totalOutflow.value = 0.0;
+    void fetchLoopFunc(Map<String, dynamic> e) {
+      if (e['category_is_income'] == 1) {
+        totalInflow.value += e['amount'] as double;
+      } else {
+        totalOutflow.value += e['amount'] as double;
+      }
 
-    transactions.addAll(dataList.map(
-      (e) {
-        if (e['category_is_income'] == 1) {
-          totalInflow.value += e['amount'] as double;
-        } else {
-          totalOutflow.value += e['amount'] as double;
-        }
+      final transactionModel = TransactionModel(
+        id: e["id"],
+        amount: e["amount"],
+        categoryId: e["category_id"],
+        walletId: e["wallet_id"],
+        createdAt: DateTime.parse(e["created_at"]),
+        updatedAt: DateTime.parse(e["updated_at"]),
+        categoryIsIncome: e["category_is_income"] == 1,
+        categoryName: e["category_name"],
+        iconId: e["icon_id"],
+      );
 
-        return TransactionModel(
-          id: e["id"],
-          amount: e["amount"],
-          categoryId: e["category_id"],
-          walletId: e["wallet_id"],
-          createdAt: DateTime.parse(e["created_at"]),
-          updatedAt: DateTime.parse(e["updated_at"]),
-          categoryIsIncome: e["category_is_income"] == 1,
-          categoryName: e["category_name"],
-          iconId: e["icon_id"],
-        );
-      },
-    ).toList());
+      transactions.add(transactionModel);
+
+      if (groupedTransaction[transactionModel.createdAt.toString()] == null) {
+        groupedTransaction[transactionModel.createdAt.toString()] = [
+          transactionModel
+        ];
+      } else {
+        groupedTransaction[transactionModel.createdAt.toString()]
+            ?.add(transactionModel);
+      }
+    }
+
+    dataList.forEach(fetchLoopFunc);
   }
 
   Future<void> fetchAndSetAuto() {

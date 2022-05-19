@@ -22,6 +22,9 @@ class SetPinController extends GetxController {
         clear();
       } else {
         error.value = true;
+        if (currentPin.value.length == 6) {
+          clear();
+        }
       }
     }
   }
