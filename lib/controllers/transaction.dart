@@ -10,13 +10,18 @@ class TransactionController extends GetxController {
       <String, List<TransactionModel>>{}.obs;
   RxDouble totalInflow = 0.0.obs;
   RxDouble totalOutflow = 0.0.obs;
+  RxDouble openingBalance = 0.0.obs;
+  RxDouble endingBalance = 0.0.obs;
 
   Future<void> fetchAndSet(
       {DateTime? startDate, DateTime? endDate, int? walletId}) async {
     final whereFilter = [];
+    final openingBalanceWhereFilter = [];
 
     if (startDate != null) {
       whereFilter.add('t.created_at >= date(\'${startDate.toString()}\')');
+      openingBalanceWhereFilter
+          .add(' t.created_at <= date(\'${startDate.toString()}\')');
     }
     if (endDate != null) {
       whereFilter.add(' t.created_at <= date(\'${endDate.toString()}\')');
@@ -24,6 +29,7 @@ class TransactionController extends GetxController {
 
     if (walletId != null) {
       whereFilter.add(' t.wallet_id = $walletId');
+      openingBalanceWhereFilter.add(' t.wallet_id = $walletId');
     }
 
     final dataList = await DBHelper.rawQuery(
@@ -38,6 +44,23 @@ class TransactionController extends GetxController {
 ''',
     );
 
+    final dataOpeningBalance = await DBHelper.rawQuery('''
+      SELECT IFNULL(
+        SUM(
+        CASE
+          WHEN c.is_income = 1 THEN t.amount ELSE -1 * t.amount
+        END
+        )
+        , 0.0) as opening_balance FROM ${DBHelper.transactionDBName} as t
+      INNER JOIN ${DBHelper.categoryDBName} as c
+      ON t.category_id = c.id 
+        ${openingBalanceWhereFilter.isNotEmpty ? 'WHERE ' : ''}
+        ${openingBalanceWhereFilter.join(' AND ')}
+    ''');
+
+    openingBalance.value = dataOpeningBalance[0]['opening_balance'];
+    endingBalance.value = dataOpeningBalance[0]['opening_balance'];
+
     transactions.clear();
     groupedTransaction.clear();
     totalInflow.value = 0.0;
@@ -45,8 +68,10 @@ class TransactionController extends GetxController {
     void fetchLoopFunc(Map<String, dynamic> e) {
       if (e['category_is_income'] == 1) {
         totalInflow.value += e['amount'] as double;
+        endingBalance.value += e['amount'] as double;
       } else {
         totalOutflow.value += e['amount'] as double;
+        endingBalance.value -= e['amount'] as double;
       }
 
       final transactionModel = TransactionModel(

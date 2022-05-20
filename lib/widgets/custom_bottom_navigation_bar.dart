@@ -22,7 +22,7 @@ class CustomBottomNavigationBar extends GetView<BottomNavigationRouter> {
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.account_balance,
+                  Icons.account_balance_wallet,
                 ),
                 label: 'Transaction',
               ),

@@ -1,11 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:mof/controllers/transaction.dart';
 import 'package:mof/formatter/currency.dart';
+import 'package:mof/models/transaction.dart';
 import 'package:mof/theme/colors.dart';
 
 class TransactionScreen extends GetView<TransactionController> {
   const TransactionScreen({Key? key}) : super(key: key);
+
+  Widget buildGroupedCard(
+      {required DateTime date,
+      required List<TransactionModel> transactionModelList}) {
+    return Card(
+      color: Colors.white,
+      child: Column(
+        children: [
+          ListTile(
+            dense: true,
+            leading: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  date.day.toString().padLeft(2, '0'),
+                  style: const TextStyle(
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            title: Text(
+              DateFormat('EEEE').format(date),
+              style: const TextStyle(fontWeight: FontWeight.w500),
+            ),
+            subtitle: Text(DateFormat("MMMM yyyy").format(date)),
+            trailing: Text(
+              CurrencyFormatter.formatCurrency(
+                transactionModelList.fold<double>(
+                  0,
+                  (previousValue, e) =>
+                      previousValue +
+                      (e.categoryIsIncome ? e.amount : -1 * e.amount),
+                ),
+              ),
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          const Divider(height: 10.0, thickness: 2, color: Colors.black),
+          for (var i = 0; i < transactionModelList.length; i++)
+            ListTile(
+              title: Text(
+                transactionModelList[i].categoryName,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 14.0),
+              ),
+              leading: transactionModelList[i].iconId != null
+                  ? Icon(IconData(transactionModelList[i].iconId as int))
+                  : null,
+              trailing: Text(
+                CurrencyFormatter.formatCurrency(
+                    transactionModelList[i].amount),
+                style: TextStyle(
+                  color: transactionModelList[i].categoryIsIncome
+                      ? Colors.green
+                      : Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +86,6 @@ class TransactionScreen extends GetView<TransactionController> {
             child: CircularProgressIndicator(),
           );
         }
-
         return Obx(
           () => Container(
             color: CustomColor.background,
@@ -101,41 +169,18 @@ class TransactionScreen extends GetView<TransactionController> {
                     ),
                   ),
                 ),
-                Card(
-                  color: Colors.white,
-                  child: Column(
-                    children: const [
-                      ListTile(
-                        leading: Text("03"),
-                        title: Text("Today"),
-                        subtitle: Text('April 2022'),
-                        trailing: Text("1.000.000"),
-                      ),
-                    ],
-                  ),
-                ),
                 Expanded(
                     child: ListView.builder(
-                  itemCount: controller.transactions.length,
+                  itemCount: controller.groupedTransaction.length,
                   itemBuilder: (context, index) {
-                    final transaction = controller.transactions[index];
-                    return ListTile(
-                      title: Text(
-                        transaction.categoryName,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      leading: transaction.iconId != null
-                          ? Icon(IconData(transaction.iconId as int))
-                          : null,
-                      trailing: Text(
-                        CurrencyFormatter.formatCurrency(transaction.amount),
-                        style: TextStyle(
-                          color: transaction.categoryIsIncome
-                              ? Colors.green
-                              : Colors.red,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                    final DateTime date = DateTime.parse(
+                        controller.groupedTransaction.keys.toList()[index]);
+                    final List<TransactionModel> transactionList =
+                        controller.groupedTransaction.values.toList()[index];
+
+                    return buildGroupedCard(
+                      date: date,
+                      transactionModelList: transactionList,
                     );
                   },
                 )),
