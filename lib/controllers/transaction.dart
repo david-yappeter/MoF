@@ -8,6 +8,11 @@ class TransactionController extends GetxController {
   RxList<dynamic> transactions = [].obs;
   RxMap<String, List<TransactionModel>> groupedTransaction =
       <String, List<TransactionModel>>{}.obs;
+  RxMap<String, Map<String, double>> groupedTransactionByCategory =
+      <String, Map<String, double>>{
+    'income': {},
+    'expense': {},
+  }.obs;
   RxDouble totalInflow = 0.0.obs;
   RxDouble totalOutflow = 0.0.obs;
   RxDouble openingBalance = 0.0.obs;
@@ -58,6 +63,16 @@ class TransactionController extends GetxController {
         ${openingBalanceWhereFilter.join(' AND ')}
     ''');
 
+    final dataGroupedTransaction = await DBHelper.rawQuery('''
+      SELECT c.name as category_name, c.is_income as category_is_income, SUM(amount) as total_amount
+      FROM ${DBHelper.transactionDBName} as t 
+      INNER JOIN ${DBHelper.categoryDBName} as c 
+      ON t.category_id = c.id
+      ${whereFilter.isNotEmpty ? 'WHERE ' : ''}
+      ${whereFilter.join(' AND ')}
+      GROUP BY category_name, category_is_income
+    ''');
+
     openingBalance.value = dataOpeningBalance[0]['opening_balance'];
     endingBalance.value = dataOpeningBalance[0]['opening_balance'];
 
@@ -65,6 +80,21 @@ class TransactionController extends GetxController {
     groupedTransaction.clear();
     totalInflow.value = 0.0;
     totalOutflow.value = 0.0;
+    groupedTransactionByCategory['income']!.clear();
+    groupedTransactionByCategory['expense']!.clear();
+
+    void assignGroupedTransactionCategory(Map<String, dynamic> data) {
+      final String categoryName = data['category_name'] as String;
+      final bool categoryIsIncome = data['category_is_income'] == 1;
+      final double totalAmount = data['total_amount'] as double;
+
+      if (categoryIsIncome) {
+        groupedTransactionByCategory['income']![categoryName] = totalAmount;
+      } else {
+        groupedTransactionByCategory['expense']![categoryName] = totalAmount;
+      }
+    }
+
     void fetchLoopFunc(Map<String, dynamic> e) {
       if (e['category_is_income'] == 1) {
         totalInflow.value += e['amount'] as double;
@@ -99,6 +129,9 @@ class TransactionController extends GetxController {
     }
 
     dataList.forEach(fetchLoopFunc);
+    dataGroupedTransaction.toList().forEach(assignGroupedTransactionCategory);
+
+    groupedTransactionByCategory.refresh();
   }
 
   Future<void> fetchAndSetAuto() {
