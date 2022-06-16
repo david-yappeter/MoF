@@ -10,6 +10,7 @@ import 'package:mof/controllers/category.dart';
 import 'package:mof/controllers/list_tile_wallet.dart';
 import 'package:mof/controllers/wallet.dart';
 import 'package:mof/screens/pin.dart';
+import 'package:mof/screens/splash_screen.dart';
 import 'package:mof/theme/theme_data.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -53,12 +54,20 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Minister of Finance',
       theme: customTheme,
-      initialRoute: !showHome
-          ? IntroductionUI.routeName
-          : (userPin != null)
-              ? PinScreen.routeName
-              : Home.routeName,
+      initialRoute: SplashScreen.routeName,
+      // initialRoute: !showHome
+      //     ? IntroductionUI.routeName
+      //     : (userPin != null)
+      //         ? PinScreen.routeName
+      //         : Home.routeName,
       getPages: [
+        GetPage(
+          name: SplashScreen.routeName,
+          page: () => SplashScreen(
+            showHome: showHome,
+            userPin: userPin,
+          ),
+        ),
         GetPage(
           name: PinScreen.routeName,
           page: () => const PinScreen(pin: ''),

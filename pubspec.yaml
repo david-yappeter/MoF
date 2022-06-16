@@ -40,6 +40,7 @@ dependencies:
   get_storage: ^2.0.3
   smooth_page_indicator: ^1.0.0+2
   pie_chart: ^5.3.0
+  flutter_launcher_icons: ^0.9.3
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +52,11 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/m.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
