@@ -3,22 +3,26 @@ import 'package:mof/database/helper.dart';
 import 'package:mof/models/wallet.dart';
 
 class WalletController extends GetxController {
-  List<WalletModel> _wallets = [];
+  RxList<WalletModel> wallets = <WalletModel>[].obs;
 
-  List<WalletModel> get wallets => [..._wallets];
+  void reload() {
+    wallets.refresh();
+  }
 
   Future<void> fetchAndSet() async {
     final dataList = await DBHelper.getData(DBHelper.walletDBName);
-    _wallets = dataList
-        .map(
-          (e) => WalletModel(
-            id: e['id'],
-            name: e['name'],
-            amount: e['amount'],
-            iconId: e['icon_id'],
-          ),
-        )
-        .toList();
+
+    wallets.clear();
+    wallets.addAll(
+      dataList
+          .map((e) => WalletModel(
+                id: e['id'],
+                name: e['name'],
+                amount: e['amount'],
+                iconId: e['icon_id'],
+              ))
+          .toList(),
+    );
   }
 
   Future<int> insert({
@@ -34,7 +38,7 @@ class WalletController extends GetxController {
   }
 
   // WalletModel getById(int id) {
-  //   return _wallets.firstWhere((e) => e.id == id);
+  //   return wallets.firstWhere((e) => e.id == id);
   // }
 
   Future<List<Map<String, dynamic>>> getById(int id) async {

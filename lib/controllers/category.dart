@@ -6,6 +6,12 @@ class CategoryController extends GetxController {
   List<CategoryModel> _categories = [];
 
   List<CategoryModel> get categories => [..._categories];
+  List<CategoryModel> get expenseCategories => [
+        ..._categories.where((category) => category.isIncome == 0),
+      ];
+  List<CategoryModel> get incomeCategories => [
+        ..._categories.where((category) => category.isIncome == 1),
+      ];
 
   Future<void> fetchAndSet() async {
     final dataList = await DBHelper.getData(DBHelper.categoryDBName);

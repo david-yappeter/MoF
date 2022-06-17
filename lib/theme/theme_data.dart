@@ -56,5 +56,17 @@ ThemeData customTheme = ThemeData(
       fontWeight: FontWeight.w400,
       fontFamily: 'Exo',
     ),
+    headline3: TextStyle(
+      color: Colors.black,
+      fontSize: 14.0,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'Poppins',
+    ),
+    headline4: TextStyle(
+      color: Colors.black,
+      fontSize: 11.0,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'Poppins',
+    ),
   ),
 );

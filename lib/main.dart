@@ -3,6 +3,7 @@ import 'package:mof/bindings/category.dart';
 import 'package:mof/bindings/home.dart';
 import 'package:mof/bindings/introduction.dart';
 import 'package:mof/bindings/new_transaction.dart';
+import 'package:mof/bindings/new_wallet.dart';
 import 'package:mof/bindings/set_pin.dart';
 import 'package:mof/bindings/wallet.dart';
 import 'package:mof/const/storage.dart';
@@ -18,6 +19,7 @@ import 'package:mof/ui/category_list.dart';
 import 'package:mof/ui/home.dart';
 import 'package:mof/ui/introduction.dart';
 import 'package:mof/ui/new_transaction.dart';
+import 'package:mof/ui/new_wallet.dart';
 import 'package:mof/ui/set_pin.dart';
 import 'package:mof/ui/wallet.dart';
 
@@ -81,6 +83,11 @@ class MyApp extends StatelessWidget {
           name: NewTransactionScreen.routeName,
           page: () => const NewTransactionScreen(),
           binding: NewTransactionBinding(),
+        ),
+        GetPage(
+          name: NewWalletScreen.routeName,
+          page: () => const NewWalletScreen(),
+          binding: NewWalletBinding(),
         ),
         GetPage(
           name: CategoryList.routeName,

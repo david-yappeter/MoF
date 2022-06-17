@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mof/controllers/wallet.dart';
+import 'package:mof/ui/new_wallet.dart';
 
 class WalletUI extends GetView<WalletController> {
   static const routeName = '/wallet';
@@ -27,21 +28,56 @@ class WalletUI extends GetView<WalletController> {
               left: 16.0,
               right: 16.0,
             ),
-            child: ListView.builder(
-              itemBuilder: (BuildContext context, int idx) {
-                final wallet = controller.wallets[idx];
+            child: Obx(
+              () => Column(
+                children: [
+                  Expanded(
+                    child: Card(
+                      color: Colors.white,
+                      child: SizedBox(
+                        height: 500,
+                        child: ListView.builder(
+                          itemBuilder: (BuildContext context, int idx) {
+                            final wallet = controller.wallets[idx];
 
-                return ListTile(
-                  title: Text(wallet.name),
-                  leading: wallet.iconId != null
-                      ? Icon(IconData(wallet.iconId as int))
-                      : null,
-                  onTap: () {
-                    Get.back(result: wallet);
-                  },
-                );
-              },
-              itemCount: controller.wallets.length,
+                            return ListTile(
+                              title: Text(wallet.name),
+                              leading: wallet.iconId != null
+                                  ? Icon(IconData(wallet.iconId as int))
+                                  : null,
+                              onTap: () {
+                                Get.back(result: wallet);
+                              },
+                            );
+                          },
+                          itemCount: controller.wallets.length,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 100.0,
+                    margin: const EdgeInsets.only(bottom: 10.0),
+                    child: Center(
+                      child: CircleAvatar(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        radius: 24.0,
+                        child: IconButton(
+                          color: Colors.white,
+                          icon: const Icon(Icons.add),
+                          onPressed: () async {
+                            final success =
+                                await Get.toNamed(NewWalletScreen.routeName);
+                            if ((success as bool)) {
+                              controller.fetchAndSet();
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },
