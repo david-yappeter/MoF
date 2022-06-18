@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 width: 200,
                 height: 200,
                 child: Image.asset(
-                  'assets/icons/m.png',
+                  'assets/images/logo_primary.png',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -68,11 +68,12 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Row(
               children: <Widget>[
                 Image.asset(
-                  'assets/icons/m.png',
+                  'assets/icons/mof_logo_primary.png',
                   width: 50,
                   height: 50,
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     const Text(
                       "Minister of Finance",
@@ -84,11 +85,12 @@ class _SplashScreenState extends State<SplashScreen> {
                     Text(
                       "Version 1.0.0",
                       style: TextStyle(
-                          color: Colors.grey[700],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          wordSpacing: 2,
-                          letterSpacing: 4),
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        wordSpacing: 2,
+                        letterSpacing: 4,
+                      ),
                     )
                   ],
                 )
