@@ -41,9 +41,9 @@ class CustomBottomNavigationBar extends GetView<BottomNavigationRouter> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.timelapse,
+                  Icons.fiber_new_outlined,
                 ),
-                label: 'Planning',
+                label: 'New Item',
               ),
               BottomNavigationBarItem(
                 icon: Icon(

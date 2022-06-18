@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mof/const/bottom_navigation.dart' as constant;
-import 'package:mof/screens/planning.dart';
+import 'package:mof/screens/new.dart';
 import 'package:mof/screens/report.dart';
 import 'package:mof/screens/setting.dart';
 import 'package:mof/screens/transaction.dart';
@@ -15,7 +15,7 @@ class BottomNavigationRouter extends GetxController {
     constant.ROUTE_TRANSACTION,
     constant.ROUTE_REPORT,
     '',
-    constant.ROUTE_PLANNING,
+    constant.ROUTE_NEW,
     constant.ROUTE_SETTINGS,
   ];
 
@@ -45,10 +45,10 @@ class BottomNavigationRouter extends GetxController {
       );
     }
 
-    if (settings.name == constant.ROUTE_PLANNING) {
+    if (settings.name == constant.ROUTE_NEW) {
       return GetPageRoute(
         settings: settings,
-        page: () => const PlanningScreen(),
+        page: () => const NewScreen(),
         transition: Transition.fade,
       );
     }

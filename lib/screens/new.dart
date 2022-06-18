@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:mof/ui/new_category.dart';
 import 'package:mof/ui/new_wallet.dart';
 
-class PlanningScreen extends StatelessWidget {
-  const PlanningScreen({Key? key}) : super(key: key);
+class NewScreen extends StatelessWidget {
+  const NewScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
