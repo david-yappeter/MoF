@@ -68,7 +68,7 @@ class WalletUI extends GetView<WalletController> {
                           onPressed: () async {
                             final success =
                                 await Get.toNamed(NewWalletScreen.routeName);
-                            if ((success as bool)) {
+                            if (success != null && (success as bool)) {
                               controller.fetchAndSet();
                             }
                           },

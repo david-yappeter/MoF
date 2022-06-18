@@ -25,7 +25,7 @@ class NewWalletScreen extends GetView<NewWalletController> {
         ],
         leading: IconButton(
           onPressed: () {
-            Get.back();
+            Get.back(result: null);
           },
           icon: const Icon(Icons.close),
         ),
