@@ -82,7 +82,7 @@ class SettingScreen extends StatelessWidget {
             const SizedBox(height: 12.0),
             buildSectionKeyValue(key: 'Developer', value: 'TanpaNama'),
             const SizedBox(height: 12.0),
-            buildSectionKeyValue(key: 'Version', value: '1.0.0'),
+            buildSectionKeyValue(key: 'Version', value: '1.0.1'),
           ],
         ),
       ),

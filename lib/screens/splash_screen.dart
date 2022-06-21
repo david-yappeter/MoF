@@ -83,7 +83,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           fontSize: 20),
                     ),
                     Text(
-                      "Version 1.0.0",
+                      "Version 1.0.1",
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.bold,
