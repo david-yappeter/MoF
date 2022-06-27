@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mof/controllers/custom_tab_bar.dart';
+import 'package:mof/controllers/filter.dart';
 import 'package:mof/controllers/list_tile_wallet.dart';
 import 'package:mof/database/helper.dart';
 import 'package:mof/models/transaction.dart';
@@ -18,8 +19,12 @@ class TransactionController extends GetxController {
   RxDouble openingBalance = 0.0.obs;
   RxDouble endingBalance = 0.0.obs;
 
-  Future<void> fetchAndSet(
-      {DateTime? startDate, DateTime? endDate, int? walletId}) async {
+  Future<void> fetchAndSet({
+    DateTime? startDate,
+    DateTime? endDate,
+    int? walletId,
+    int? categoryId,
+  }) async {
     final whereFilter = [];
     final openingBalanceWhereFilter = [];
 
@@ -35,6 +40,11 @@ class TransactionController extends GetxController {
     if (walletId != null) {
       whereFilter.add(' t.wallet_id = $walletId');
       openingBalanceWhereFilter.add(' t.wallet_id = $walletId');
+    }
+
+    if (categoryId != null) {
+      whereFilter.add(' t.category_id = $categoryId');
+      openingBalanceWhereFilter.add(' t.category_id = $categoryId');
     }
 
     final dataList = await DBHelper.rawQuery(
@@ -138,6 +148,7 @@ class TransactionController extends GetxController {
     final TabBarController tabbarController = Get.find();
     final TransactionController transactionController = Get.find();
     final ListTileWalletController listTileWalletController = Get.find();
+    final FilterController filterController = Get.find();
     final dateRange = tabbarController.currentSelectedMonthRange;
     final selectedWalletId = listTileWalletController.selectedWalletId;
 
@@ -145,6 +156,9 @@ class TransactionController extends GetxController {
       startDate: dateRange[0],
       endDate: dateRange[1],
       walletId: selectedWalletId,
+      categoryId: filterController.categoryId.value != 0
+          ? filterController.categoryId.value
+          : null,
     );
   }
 

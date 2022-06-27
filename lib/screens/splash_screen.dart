@@ -78,9 +78,10 @@ class _SplashScreenState extends State<SplashScreen> {
                     const Text(
                       "Minister of Finance",
                       style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
                     Text(
                       "Version 1.0.1",
