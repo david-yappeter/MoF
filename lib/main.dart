@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mof/bindings/category.dart';
 import 'package:mof/bindings/home.dart';
@@ -11,6 +12,7 @@ import 'package:mof/const/storage.dart';
 import 'package:mof/controllers/category.dart';
 import 'package:mof/controllers/list_tile_wallet.dart';
 import 'package:mof/controllers/wallet.dart';
+import 'package:mof/provider/myProvider.dart';
 import 'package:mof/screens/pin.dart';
 import 'package:mof/screens/splash_screen.dart';
 import 'package:mof/theme/theme_data.dart';
@@ -24,9 +26,13 @@ import 'package:mof/ui/new_transaction.dart';
 import 'package:mof/ui/new_wallet.dart';
 import 'package:mof/ui/set_pin.dart';
 import 'package:mof/ui/wallet.dart';
+import 'package:provider/provider.dart';
 
-void main() async {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await GetStorage.init();
+
   // await DBHelper.deleteDB();
   // GetStorage().remove(SHOW_HOME);
   // GetStorage().write(USER_PIN, '123456');
@@ -37,10 +43,12 @@ void main() async {
   Get.put(CategoryController());
   Get.put(ListTileWalletController());
 
-  runApp(MyApp(
-    showHome: showHome,
-    userPin: userPin,
-  ));
+  runApp(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => myProvider())],
+      child: MyApp(
+        showHome: showHome,
+        userPin: userPin,
+      )));
 }
 
 class MyApp extends StatelessWidget {
@@ -55,9 +63,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final prov = Provider.of<myProvider>(context);
     return GetMaterialApp(
       title: 'Minister of Finance',
-      theme: customTheme,
+      theme: prov.status == true ? prov.dark : customTheme,
       initialRoute: SplashScreen.routeName,
       // initialRoute: !showHome
       //     ? IntroductionUI.routeName

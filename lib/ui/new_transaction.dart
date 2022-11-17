@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mof/controllers/new_transaction.dart';
+import 'package:mof/firebase/myAnalytics.dart';
 import 'package:mof/models/category.dart';
 import 'package:mof/models/wallet.dart';
 import 'package:mof/ui/category_list.dart';
@@ -14,6 +15,7 @@ class NewTransactionScreen extends GetView<NewTransactionController> {
 
   @override
   Widget build(BuildContext context) {
+    MyFirebaseAnalytics firebaseanalytics = MyFirebaseAnalytics();
     return Scaffold(
       appBar: AppBar(
         title: const Text('New Transaction'),
@@ -22,6 +24,7 @@ class NewTransactionScreen extends GetView<NewTransactionController> {
             onPressed: () async {
               final success = await controller.onSubmit();
               if (success) {
+                firebaseanalytics.maketransactionlogEvent();
                 Get.back();
               }
             },

@@ -9,52 +9,45 @@ class CustomBottomNavigationBar extends GetView<BottomNavigationRouter> {
   Widget build(BuildContext context) {
     return Obx(
       () => BottomAppBar(
-        elevation: 0,
+        elevation: 8,
         shape: const CircularNotchedRectangle(),
-        child: Theme(
-          data: ThemeData(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-          ),
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.account_balance_wallet,
-                ),
-                label: 'Transaction',
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.account_balance_wallet,
               ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.pie_chart,
-                ),
-                label: 'Report',
+              label: 'Transaction',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.pie_chart,
               ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home,
-                  color: Colors.transparent,
-                ),
-                label: "",
+              label: 'Report',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                color: Colors.transparent,
               ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.fiber_new_outlined,
-                ),
-                label: 'New Item',
+              label: "",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.fiber_new_outlined,
               ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.settings,
-                ),
-                label: 'Settings',
+              label: 'New Item',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.settings,
               ),
-            ],
-            currentIndex: controller.currentIdx.value,
-            onTap: controller.changePage,
-          ),
+              label: 'Settings',
+            ),
+          ],
+          currentIndex: controller.currentIdx.value,
+          onTap: controller.changePage,
         ),
       ),
     );

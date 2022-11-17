@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mof/provider/myProvider.dart';
 import 'package:mof/screens/pin.dart';
 import 'package:mof/ui/home.dart';
 import 'package:mof/ui/introduction.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   static const routeName = '/splash-screen';
@@ -35,10 +37,12 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     startTime();
+    Provider.of<myProvider>(context, listen: false).loadData();
   }
 
   @override
   Widget build(BuildContext context) {
+    final prov = Provider.of<myProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -60,7 +64,9 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
           Container(
             height: MediaQuery.of(context).size.height,
-            color: Colors.blue.withOpacity(0.2),
+            color: prov.status == true
+                ? Colors.white.withOpacity(0.2)
+                : Colors.blue.withOpacity(0.2),
           ),
           Positioned(
             top: MediaQuery.of(context).size.height * 0.9,
@@ -75,10 +81,12 @@ class _SplashScreenState extends State<SplashScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Text(
+                    Text(
                       "Minister of Finance",
                       style: TextStyle(
-                        color: Colors.black,
+                        color: prov.status == true
+                            ? Colors.white
+                            : Colors.grey[700],
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
@@ -86,7 +94,9 @@ class _SplashScreenState extends State<SplashScreen> {
                     Text(
                       "Version 1.0.1",
                       style: TextStyle(
-                        color: Colors.grey[700],
+                        color: prov.status == true
+                            ? Colors.white
+                            : Colors.grey[700],
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
                         wordSpacing: 2,

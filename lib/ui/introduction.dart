@@ -1,8 +1,10 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mof/const/storage.dart';
 import 'package:mof/controllers/introduction.dart';
+import 'package:mof/firebase/myAnalytics.dart';
 import 'package:mof/theme/colors.dart';
 import 'package:mof/ui/home.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -55,6 +57,7 @@ class IntroductionUI extends GetView<IntroductionController> {
 
   @override
   Widget build(BuildContext context) {
+    MyFirebaseAnalytics firebaseanalytics = MyFirebaseAnalytics();
     return Form(
       key: controller.formKey,
       child: Scaffold(
@@ -174,8 +177,15 @@ class IntroductionUI extends GetView<IntroductionController> {
                                 GetStorage().write(SHOW_HOME, true);
                                 final success = await controller.onSubmit();
                                 if (success) {
+                                  firebaseanalytics.testAppInstanceId();
+                                  firebaseanalytics.newUserIDlogEvent(USER_PIN);
+                                  firebaseanalytics.setUserID(USER_PIN);
                                   Get.offAllNamed(Home.routeName);
                                 }
+
+                                // if (success) {
+                                //   Get.offAllNamed(Home.routeName);
+                                // }
                               },
                             ),
                     ),

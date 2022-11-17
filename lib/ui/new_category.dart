@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mof/controllers/new_category.dart';
+import 'package:mof/firebase/myAnalytics.dart';
 
 class NewCategoryScreen extends GetView<NewCategoryController> {
   static const routeName = '/new-category';
@@ -9,6 +10,7 @@ class NewCategoryScreen extends GetView<NewCategoryController> {
 
   @override
   Widget build(BuildContext context) {
+    MyFirebaseAnalytics firebaseanalytics = MyFirebaseAnalytics();
     return Scaffold(
       appBar: AppBar(
         title: const Text('New Category'),

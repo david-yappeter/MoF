@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mof/const/storage.dart';
 import 'package:mof/controllers/filter.dart';
 import 'package:mof/controllers/transaction.dart';
+import 'package:mof/firebase/myAnalytics.dart';
 import 'package:mof/models/category.dart';
 import 'package:mof/router/custom_bottom_navigation.dart';
 import 'package:mof/ui/category_list.dart';
@@ -21,6 +24,7 @@ class Home extends GetView<BottomNavigationRouter> {
     final FilterController filterController = Get.find<FilterController>();
     final TransactionController transactionController =
         Get.find<TransactionController>();
+    MyFirebaseAnalytics firebaseanalytics = MyFirebaseAnalytics();
     return Scaffold(
       extendBody: true,
       appBar: AppBar(

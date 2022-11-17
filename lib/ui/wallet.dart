@@ -33,7 +33,6 @@ class WalletUI extends GetView<WalletController> {
                 children: [
                   Expanded(
                     child: Card(
-                      color: Colors.white,
                       child: SizedBox(
                         height: 500,
                         child: ListView.builder(

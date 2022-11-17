@@ -39,7 +39,6 @@ class CategoryList extends GetView<CategoryController> {
                                   style:
                                       Theme.of(context).textTheme.headline2)),
                           Card(
-                            color: Colors.white,
                             child: Column(
                               children: controller.categories
                                   .where((category) => category.isIncome == 0)
@@ -71,7 +70,6 @@ class CategoryList extends GetView<CategoryController> {
                                   style:
                                       Theme.of(context).textTheme.headline2)),
                           Card(
-                            color: Colors.white,
                             child: Column(
                               children: controller.categories
                                   .where((category) => category.isIncome == 1)

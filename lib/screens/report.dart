@@ -42,7 +42,6 @@ class ReportScreen extends GetView<TransactionController> {
     return Column(
       children: [
         Card(
-          color: Colors.white,
           child: Container(
             width: double.infinity,
             padding: const EdgeInsets.only(
