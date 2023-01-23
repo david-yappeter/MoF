@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mof/provider/myProvider.dart';
 import 'package:mof/theme/colors.dart';
 import 'package:mof/ui/set_pin.dart';
@@ -15,6 +18,15 @@ class SettingScreen extends StatefulWidget {
 bool myswitch = false;
 
 class _SettingScreenState extends State<SettingScreen> {
+  final BannerAd myBanner = BannerAd(
+    adUnitId: Platform.isAndroid
+        ? 'ca-app-pub-3940256099942544/6300978111'
+        : 'ca-app-pub-3940256099942544/2934735716',
+    size: AdSize.banner,
+    request: const AdRequest(),
+    listener: const BannerAdListener(),
+  );
+
   Widget buildSectionTitle(String title) {
     return Text(
       title,
@@ -50,6 +62,12 @@ class _SettingScreenState extends State<SettingScreen> {
         ),
       ],
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    myBanner.load();
   }
 
   @override
@@ -93,37 +111,54 @@ class _SettingScreenState extends State<SettingScreen> {
           const SizedBox(height: 12.0),
           buildSectionKeyValue(key: 'Version', value: '1.0.1'),
           const SizedBox(height: 12.0),
-          Column(children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Set Dark Theme",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16.0,
-                    color: prov.status == true ? Colors.white : Colors.black,
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Set Dark Theme",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16.0,
+                      color: prov.status == true ? Colors.white : Colors.black,
+                    ),
                   ),
+                  Switch(
+                      value: prov.getStatus,
+                      onChanged: ((bool value) {
+                        setState(() {
+                          prov.setStatus(value);
+                        });
+                      }))
+                ],
+              ),
+              // ListTile(
+              //   contentPadding: const EdgeInsets.all(0),
+              //   title: const Text("Login"),
+              //   onTap: () {
+              //     Navigator.pushReplacement(context,
+              //         MaterialPageRoute(builder: (context) => const LoginPage()));
+              //   },
+              // )
+              // const Spacer(),
+            ],
+          ),
+          const Spacer(),
+          Positioned(
+            bottom: 30.0,
+            left: 30.0,
+            child: SizedBox(
+              height: 250.0,
+              width: 320.0,
+              child: Center(
+                child: AdWidget(
+                  ad: myBanner,
                 ),
-                Switch(
-                    value: prov.getStatus,
-                    onChanged: ((bool value) {
-                      setState(() {
-                        prov.setStatus(value);
-                      });
-                    }))
-              ],
+              ),
             ),
-            // ListTile(
-            //   contentPadding: const EdgeInsets.all(0),
-            //   title: const Text("Login"),
-            //   onTap: () {
-            //     Navigator.pushReplacement(context,
-            //         MaterialPageRoute(builder: (context) => const LoginPage()));
-            //   },
-            // )
-          ])
+          ),
         ],
       ),
     );

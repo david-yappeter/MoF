@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:mof/controllers/transaction.dart';
 import 'package:mof/formatter/currency.dart';
 import 'package:mof/models/transaction.dart';
-import 'package:mof/provider/myProvider.dart';
+// import 'package:mof/provider/myProvider.dart';
 import 'package:mof/theme/colors.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 class TransactionScreen extends GetView<TransactionController> {
   const TransactionScreen({Key? key}) : super(key: key);
@@ -79,7 +79,7 @@ class TransactionScreen extends GetView<TransactionController> {
 
   @override
   Widget build(BuildContext context) {
-    final prov = Provider.of<myProvider>(context);
+    // final prov = Provider.of<myProvider>(context);
     return FutureBuilder(
       future: controller.fetchAndSetAuto(),
       builder: (context, snapshot) {

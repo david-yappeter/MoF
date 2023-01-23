@@ -27,9 +27,11 @@ import 'package:mof/ui/new_wallet.dart';
 import 'package:mof/ui/set_pin.dart';
 import 'package:mof/ui/wallet.dart';
 import 'package:provider/provider.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await MobileAds.instance.initialize();
   await Firebase.initializeApp();
   await GetStorage.init();
 
