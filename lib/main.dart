@@ -12,6 +12,7 @@ import 'package:mof/const/storage.dart';
 import 'package:mof/controllers/category.dart';
 import 'package:mof/controllers/list_tile_wallet.dart';
 import 'package:mof/controllers/wallet.dart';
+import 'package:mof/permission/helper.dart';
 import 'package:mof/provider/myProvider.dart';
 import 'package:mof/screens/pin.dart';
 import 'package:mof/screens/splash_screen.dart';
@@ -34,6 +35,7 @@ Future<void> main() async {
   await MobileAds.instance.initialize();
   await Firebase.initializeApp();
   await GetStorage.init();
+  await mustGetStoragePermission();
 
   // await DBHelper.deleteDB();
   // GetStorage().remove(SHOW_HOME);
