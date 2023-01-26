@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>119533557094-mshhdg7cq63t6hnisuog8rmitefr79gn.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.119533557094-mshhdg7cq63t6hnisuog8rmitefr79gn</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAkMslXIUvUIT-MKaAbBJVsYFGX2QEO8AM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>119533557094</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.mof</string>
+	<key>PROJECT_ID</key>
+	<string>solid-daylight-332812</string>
+	<key>STORAGE_BUCKET</key>
+	<string>solid-daylight-332812.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:119533557094:ios:7ee134e4e5f4ec6ee4e4a7</string>
+	<key>DATABASE_URL</key>
+	<string>https://solid-daylight-332812-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

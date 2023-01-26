@@ -12,6 +12,7 @@ import 'package:mof/const/storage.dart';
 import 'package:mof/controllers/category.dart';
 import 'package:mof/controllers/list_tile_wallet.dart';
 import 'package:mof/controllers/wallet.dart';
+import 'package:mof/firebase_options.dart';
 import 'package:mof/permission/helper.dart';
 import 'package:mof/provider/myProvider.dart';
 import 'package:mof/screens/pin.dart';
@@ -29,13 +30,45 @@ import 'package:mof/ui/set_pin.dart';
 import 'package:mof/ui/wallet.dart';
 import 'package:provider/provider.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+
+  print("Handling  a background message: ${message.messageId}");
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    name: "mof_firebase",
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await GetStorage.init();
   await mustGetStoragePermission();
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+  print('User granted permission:  ${settings.authorizationStatus}');
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Got a message');
+    print('Data: ${message.data}');
+
+    if (message.notification != null) {
+      print("message also contain ${message.notification}");
+    }
+  });
 
   // await DBHelper.deleteDB();
   // GetStorage().remove(SHOW_HOME);
