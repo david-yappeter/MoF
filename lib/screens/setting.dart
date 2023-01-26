@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mof/provider/myProvider.dart';
+import 'package:mof/screens/Exchange_screen.dart';
 import 'package:mof/theme/colors.dart';
 import 'package:mof/ui/set_pin.dart';
 import 'package:provider/provider.dart';
@@ -134,6 +135,18 @@ class _SettingScreenState extends State<SettingScreen> {
                       }))
                 ],
               ),
+              ListTile(
+                contentPadding: const EdgeInsets.all(0),
+                onTap: () {
+                  Navigator.of(context, rootNavigator: true).push(
+                      MaterialPageRoute(
+                          builder: (context) => const ExchangeRateScreen()));
+                },
+                title: const Text(
+                  "Exchange Rate",
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                ),
+              )
               // ListTile(
               //   contentPadding: const EdgeInsets.all(0),
               //   title: const Text("Login"),
