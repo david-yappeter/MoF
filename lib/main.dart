@@ -13,6 +13,7 @@ import 'package:mof/controllers/category.dart';
 import 'package:mof/controllers/list_tile_wallet.dart';
 import 'package:mof/controllers/wallet.dart';
 import 'package:mof/firebase_options.dart';
+import 'package:mof/notification/NotificationService.dart';
 import 'package:mof/permission/helper.dart';
 import 'package:mof/provider/myProvider.dart';
 import 'package:mof/screens/pin.dart';
@@ -33,20 +34,27 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp(
+    name: "mof",
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-  print("Handling  a background message: ${message.messageId}");
+  print("Handling a background message: ${message.messageId}");
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
   await Firebase.initializeApp(
-    name: "mof_firebase",
+    name: "mof",
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await GetStorage.init();
   await mustGetStoragePermission();
+
+  NotificationService.initialize();
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -60,15 +68,18 @@ Future<void> main() async {
     sound: true,
   );
   print('User granted permission:  ${settings.authorizationStatus}');
+  print('asgasgasgas  ${await messaging.getToken()}');
 
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print('Got a message');
-    print('Data: ${message.data}');
-
-    if (message.notification != null) {
-      print("message also contain ${message.notification}");
-    }
-  });
+  FirebaseMessaging.onMessage.listen(
+    (RemoteMessage message) {
+      if (message.notification != null) {
+        NotificationService.showLocalNotification(
+          title: message.notification!.title!,
+          body: message.notification!.body!,
+        );
+      }
+    },
+  );
 
   // await DBHelper.deleteDB();
   // GetStorage().remove(SHOW_HOME);
@@ -80,12 +91,15 @@ Future<void> main() async {
   Get.put(CategoryController());
   Get.put(ListTileWalletController());
 
-  runApp(MultiProvider(
+  runApp(
+    MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => myProvider())],
       child: MyApp(
         showHome: showHome,
         userPin: userPin,
-      )));
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

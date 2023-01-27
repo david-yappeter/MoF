@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:mof/controllers/transaction.dart';
 import 'package:mof/formatter/currency.dart';
 import 'package:mof/models/transaction.dart';
+import 'package:mof/notification/NotificationService.dart';
 // import 'package:mof/provider/myProvider.dart';
 import 'package:mof/theme/colors.dart';
 // import 'package:provider/provider.dart';
@@ -169,20 +170,21 @@ class TransactionScreen extends GetView<TransactionController> {
                 ),
               ),
               Expanded(
-                  child: ListView.builder(
-                itemCount: controller.groupedTransaction.length,
-                itemBuilder: (context, index) {
-                  final DateTime date = DateTime.parse(
-                      controller.groupedTransaction.keys.toList()[index]);
-                  final List<TransactionModel> transactionList =
-                      controller.groupedTransaction.values.toList()[index];
+                child: ListView.builder(
+                  itemCount: controller.groupedTransaction.length,
+                  itemBuilder: (context, index) {
+                    final DateTime date = DateTime.parse(
+                        controller.groupedTransaction.keys.toList()[index]);
+                    final List<TransactionModel> transactionList =
+                        controller.groupedTransaction.values.toList()[index];
 
-                  return buildGroupedCard(
-                    date: date,
-                    transactionModelList: transactionList,
-                  );
-                },
-              )),
+                    return buildGroupedCard(
+                      date: date,
+                      transactionModelList: transactionList,
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         );
